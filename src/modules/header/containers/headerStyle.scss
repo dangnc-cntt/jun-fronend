@@ -1,0 +1,177 @@
+.header{
+  width: 100%;
+  height: 80px;
+  background-color: white;
+  .content-header{
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 80px;
+    z-index: 1050;
+    position: fixed;
+    background-color: #030303;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+    .container{
+      max-width: 1400px;
+      .user-header {
+        width: 17.3%;
+
+        .user {
+          width: 100%;
+          padding-left: 30px;
+          right: 0;
+          cursor: pointer;
+
+          .information-user {
+            font-size: 13px;
+            margin: 0;
+            width: 98px;
+            padding-left: 10px;
+
+            span {
+              width: 120px;
+              font-family: OpenSans-Semibold;
+              color: #070707;
+              overflow: hidden;
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+            }
+          }
+
+          .img_user {
+            width: 36px;
+            height: 36px;
+
+            img {
+              width: 36px;
+              height: 36px;
+              display: inline-block;
+              border-radius: 50%;
+            }
+          }
+        }
+
+        .icon-user-header {
+          .user-icon {
+            text-align: center;
+            margin-left: 30px;
+            margin-right: 20px;
+
+            .icon {
+              margin-right: 12px;
+
+              i {
+                font-size: 20px;
+                color: #FFFFFF;
+              }
+            }
+
+            .text {
+              font-size: 13px;
+              font-family: OpenSans-Regular;
+              color: #FFFFFF;
+              cursor: pointer;
+
+              span {
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+
+              @media screen and (max-width: 1700px) and (min-width: 1200px) {
+                width: 130px !important;
+              }
+            }
+          }
+
+          .hover-user {
+            width: 45px;
+            height: 52px;
+            margin-left: -38px;
+            text-align: right;
+            display: inline-block;
+            top: 0px;
+            right: 75px;
+
+            .login-register {
+              width: 240px;
+              height: auto;
+              opacity: 1;
+              border-radius: 4px;
+              position: absolute;
+              display: block;
+              padding-top: 15px;
+              background-color: white;
+              margin: 48px 0 0 -206px;
+              box-shadow: 0.7px 0.7px 9px 0 rgba(0, 0, 0, 0.1);
+              z-index: 1000;
+
+              &:before {
+                bottom: 100%;
+                left: 64%;
+                border: solid transparent;
+                content: " ";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+              }
+
+              &:before {
+                border-color: rgba(194, 225, 245, 0);
+                border-bottom-color: white;
+                border-width: 8px;
+                margin-left: 63px;
+              }
+
+              p {
+                margin-bottom: 12px;
+                font-size: 13px;
+                font-family: "Opensans";
+                color: #000000;
+              }
+
+              button {
+                width: 208px;
+                height: 38px;
+                margin-bottom: 8px;
+                font-size: 13px;
+                font-family: "Opensans";
+                border-radius: 4px;
+              }
+
+              button.login {
+                color: white;
+                border: none;
+                background-color: #F54B24;
+              }
+
+              button.register {
+                color: #000000;
+                border: 1px solid #E1E1E1;
+                background-color: white;
+              }
+
+              .login-mxh {
+                width: 100%;
+                height: 80px;
+                padding: 5px 0 8px;
+                text-align: center;
+                margin-top: 1px;
+                border-radius: 0 0 4px 4px;
+                background-color: #F4F5F6;
+
+                span {
+                  font-size: 13px;
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
