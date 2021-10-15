@@ -6,6 +6,7 @@ import {signUpStore} from "../../authen/LoginSignUp/Store/SignUpStore";
 import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
 import {css} from "@emotion/core";
 import {observable} from "mobx";
+import User from "../../home/User";
 
 @observer
 export default class HeaderComponent extends Component {
@@ -57,6 +58,7 @@ export default class HeaderComponent extends Component {
               <div className="logo">
                 <img style={{width: `100px`}} src="/assets/images/logo_in.jpg" alt=""/>
               </div>
+              {LoginStore.getUserData ? <User/> :
               <div className="user-header">
                 <div className="icon-user-header position-relative text-right">
                   <div className="user-icon d-inline-block d-flex align-items-center">
@@ -87,7 +89,7 @@ export default class HeaderComponent extends Component {
                   </div>
 
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
       </div>
