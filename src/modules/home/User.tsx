@@ -29,7 +29,7 @@ class User extends Component {
                                 </div>
                                 <div className="information-user">
                                     <p className="text-white">Xin chào</p>
-                                    <span>{this.converName(LoginStore.getUserData.name)}</span>
+                                    <span>{this.converName(LoginStore.getUserData.fullName)}</span>
                                 </div>
                             </div> :
                             <div className="d-flex align-items-center">
@@ -38,7 +38,7 @@ class User extends Component {
                                 </div>
                                 <div className="information-user">
                                     <p className="text-white">Xin chào</p>
-                                    <span>{this.converName(LoginStore.getUserData.name)}</span>
+                                    <span>{this.converName(LoginStore.getUserData.fullName)}</span>
                                 </div>
                             </div>}
                         <div className="list-manager-information">
