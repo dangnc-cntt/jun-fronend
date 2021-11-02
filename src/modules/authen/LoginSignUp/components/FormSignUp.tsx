@@ -8,8 +8,6 @@ import {observer} from "mobx-react";
 export default class FormSignUp extends Component {
 
 
-
-
     render() {
 
         if(signUpStore.getIsShowSignUpForm){

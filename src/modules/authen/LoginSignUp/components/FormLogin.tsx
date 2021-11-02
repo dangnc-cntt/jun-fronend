@@ -25,10 +25,7 @@ export default class FormLogin extends Component {
                     <div id="error" className="pb-2">{LoginStore.Formerror&&LoginStore.Formerror.message}</div>
                     <FormGroup className="phone_number email css_form">
                         <Input type="text" id="username" name="username"
-                               validations={[
-                                   new Validations(Validations.regexp(/(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$|^\d{10,10})$/), 'Tài khoản phải là Email hoặc số điện thoại (Sđt gồm 10 số)')
-                               ]}
-                               onChange={(e)=>{setUserNameValue(e)}} placeholder="Số điện thoại hoặc email"/>
+                               onChange={(e)=>{setUserNameValue(e)}} placeholder="Username"/>
                       {!LoginStore.getIsFormerror&&<Feedback className="error p-0" invalid={"true"}/>}
                         <p id="user" className="error">{LoginStore.getIsFormerror&&LoginStore.getIsFormerror.name}</p>
                     </FormGroup>

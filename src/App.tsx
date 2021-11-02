@@ -10,6 +10,7 @@ import Redirect from "./modules/router/router";
 import LoginSignup from "./modules/authen/LoginSignUp/components/index";
 import {LoginStore} from "./modules/authen/LoginSignUp/Store/LoginStore";
 import {getUserData} from "./modules/authen/LoginSignUp/Reducers/LoginReducer";
+import ActiveForm from "./modules/authen/LoginSignUp/components/ActiveForm";
 
 @observer
 export default class App extends Component {
@@ -53,6 +54,7 @@ export default class App extends Component {
                     <div className="container">
                         <Redirect/>
                     </div>
+                    <ActiveForm/>
                     <LoginSignup/>
                 </Router>
                 <ToastContainer/>

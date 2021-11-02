@@ -1,12 +1,13 @@
 export interface IResLogin {
     message: string,
     accessToken: string,
+    refreshToken: string,
     statusCode:number|null
 }
 
 export interface IResProfile {
     id: number
-    name: string
+    fullName: string
     birthDay: null | string
     avatarUrl: null | string
     gender: null | 'MALE' | 'FEMALE'

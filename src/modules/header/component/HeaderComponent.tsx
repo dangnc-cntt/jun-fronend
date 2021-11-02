@@ -4,8 +4,8 @@ import '../containers/headerStyle.scss';
 import {observer} from 'mobx-react';
 import {signUpStore} from "../../authen/LoginSignUp/Store/SignUpStore";
 import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
-import {css} from "@emotion/core";
 import {observable} from "mobx";
+import User from "./User";
 
 @observer
 export default class HeaderComponent extends Component {
@@ -57,7 +57,7 @@ export default class HeaderComponent extends Component {
               <div className="logo">
                 <img style={{width: `100px`}} src="/assets/images/logo_in.jpg" alt=""/>
               </div>
-              <div className="user-header">
+              {LoginStore.userData ? <User/> : <div className="user-header">
                 <div className="icon-user-header position-relative text-right">
                   <div className="user-icon d-inline-block d-flex align-items-center">
                     <div className="icon">
@@ -69,7 +69,7 @@ export default class HeaderComponent extends Component {
                           onClick={() => this.handleClickSignup()}>Đăng ký</span>
                       </div>
                       <div className="d-flex align-items-center" onClick={() => this.handleClickLoginOut()} ref={this.boxLogin}>
-                        <p style={{marginRight: "6px"}}>Tài khoản</p><i className="fal fa-chevron-down"/>
+                        <p className="mb-0" style={{marginRight: "6px"}}>Tài khoản</p><i className="fal fa-chevron-down"/>
                         <div className="hover-user position-absolute">
                           {this.showLogin &&
                           <div className="login-register text-center">
@@ -87,7 +87,7 @@ export default class HeaderComponent extends Component {
                   </div>
 
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
       </div>
@@ -95,24 +95,3 @@ export default class HeaderComponent extends Component {
   }
 }
 
-
-
-const google = css`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  opacity: 0;
-
-  &:hover {
-    opacity:  @important
-  }
-
-  span {
-    display: none
-  }
-
-  div {
-    display: none
-  }
-`;

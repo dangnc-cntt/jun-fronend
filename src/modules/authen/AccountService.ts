@@ -11,7 +11,7 @@ class AccountService {
     }
 
     public getProfile(): Promise<IApiResponse> {
-        return getRequest(`/v1/users/profile`)
+        return getRequest(`/v1/accounts/profile`)
     }
 }
 

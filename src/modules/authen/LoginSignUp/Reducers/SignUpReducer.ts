@@ -1,6 +1,6 @@
 import {signUpStore} from '../Store/SignUpStore'
 import {LoginStore} from "../Store/LoginStore";
-import {sendRegister, sendUpdateRefCode, sendVerifyAccount, sendReSendOtp} from "../../../../api/auth";
+import {sendRegister, sendVerifyAccount, sendReSendOtp} from "../../../../api/auth";
 import {toastUtil} from "../../../../common/utils/ToastUtil";
 
 export function setEmail(e: any) {
@@ -49,10 +49,6 @@ export async function resendCode() {
 }
 
 export async function signUp() {
-    signUpStore.buttonLoading = true;
-    setTimeout(() => {
-        signUpStore.buttonLoading = false
-    }, 5000);
     let userName: string = signUpStore.getUserName;
     let passWord: string = signUpStore.getPassWord;
     let email: string = signUpStore.email;
@@ -81,7 +77,7 @@ export async function signUp() {
         signUpStore.buttonLoading = false;
         return false;
     }
-    if (filter.test(userName)) {
+    if (filter.test(email)) {
         type = "email"
     }
 
@@ -105,24 +101,15 @@ export async function signUp() {
     };
 
     try {
+        signUpStore.buttonLoading = true;
         const {status, body} = await sendRegister(data as any);
-
+        signUpStore.buttonLoading = false;
         if (status > 250) {
             signUpStore.errorSignUp = {message: body.message};
-            signUpStore.buttonLoading = false
-
         } else {
-            if (body.statusCode === 405) {
-                signUpStore.buttonLoading = false;
-                signUpStore.isSignUpForm = false;
-                resendCode();
-                signUpStore.typeUser = type;
-            } else {
-                signUpStore.typeUser = type;
-                signUpStore.isSignUpForm = false;
-                signUpStore.buttonLoading = false
-            }
-
+            signUpStore.isSignUpForm = false;
+            signUpStore.typeUser = type;
+            console.log(signUpStore.typeUser)
         }
     } catch (e) {
         console.error(e);
@@ -139,12 +126,12 @@ export async function checkOtp() {
         signUpStore.buttonLoading = true;
         const username: string = signUpStore.getUserName;
         const otp: number = signUpStore.getOtp;
-        const data = {username: username, active_code: otp + ''};
+        const data = {username: username, code: otp + ''};
         const {status} = await sendVerifyAccount(data);
         if (status < 300) {
             toastUtil.success('Tạo tài khoản thành công');
             LoginStore.isShowLoginForm = true;
-            signUpStore.typeUser = null;
+            signUpStore.typeUser = '';
             signUpStore.codeRef = '';
         }
         setTimeout(() => {
@@ -155,24 +142,3 @@ export async function checkOtp() {
     }
 }
 
-
-export async function updateRefCode() {
-    const type = "Buyer";
-    const regType = signUpStore.refCode ? "Link" : "Normal";
-    const refCode = signUpStore.refCode ? signUpStore.refCode : signUpStore.codeRef;
-    signUpStore.isLoading = true;
-
-    try {
-        const {status, body} = await sendUpdateRefCode(refCode, type, regType);
-        if (status === 200) {
-            toastUtil.success('Xin Chào - Tài khoản của bạn đã sẵn sàng tham gia Đấu giá!');
-            signUpStore.isShowRefCode = true;
-        } else {
-            signUpStore.errorRefCode = body.message;
-        }
-    } catch (e) {
-        console.error(e);
-    } finally {
-        signUpStore.isLoading = false;
-    }
-}

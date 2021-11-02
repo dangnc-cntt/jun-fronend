@@ -8,7 +8,7 @@ class SignUpStore {
     @observable public passWord: string = "";
     @observable public codeRef: string = "";
     @observable public pasWordConFirm: string = "";
-    @observable public typeUser!: string | null;
+    @observable public typeUser: string = '';
     @observable public Otp!: number;
     @observable public refCode: string = "";
     @observable public errorRefCode: string = "";

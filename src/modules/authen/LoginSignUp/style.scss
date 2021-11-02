@@ -183,6 +183,9 @@
 
 .confirm_otp_signUp{
   display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
   justify-content: center;
   .modal-dialog{
     width: 500px;

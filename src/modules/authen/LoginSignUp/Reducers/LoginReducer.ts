@@ -37,7 +37,7 @@ export async function Login() {
 
   try {
     LoginStore.buttonLoading = true;
-    const {status, body: {message, accessToken, statusCode}} = await sendLogin(formData);
+    const {status, body: {message, accessToken, statusCode, refreshToken}} = await sendLogin(formData);
     if (status > 300 && status !== 400) {
       if (status === 401 && statusCode) {
         toastUtil.error(`${message}`);
@@ -63,11 +63,11 @@ export async function Login() {
         LoginStore.isVerifyForm = true;
       } else {
         localStorage.setItem("token", accessToken);
+        localStorage.setItem("refreshToken", refreshToken)
         toastUtil.success(`Đăng nhập thành công`);
         LoginStore.buttonLoading = false;
         LoginStore.isShowLoginForm = false;
         $('.header__overlay').hide();
-        updateFcmToken();
         await getUserData();
       }
 
@@ -150,11 +150,11 @@ export async function resendActiveAccountRegister() {
 
 export async function logOut() {
   try {
-    const {status} = await sendLogout(localStorage.getItem('fcm-token') as string);
+    const {status} = await sendLogout(localStorage.getItem('refreshToken') as string);
     if (status < 300) {
       LoginStore.userData = null;
-      eraseCookie('token');
-      document.cookie = "tokenSeller=;domain=" + (window as any).REACT_APP_DOMAIN + "";
+      localStorage.removeItem('token')
+      localStorage.removeItem('refreshToken')
       if (LoginStore.redirect) {
         window.location.href = "/";
       }

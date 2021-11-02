@@ -7,27 +7,24 @@ function sendLogin(params: IReqLogin): Promise<IApiResponse<IResLogin>> {
 }
 
 function getAccount(): Promise<IApiResponse<IResProfile>> {
-    return getRequest("v1/users/_me/");
+    return getRequest("v1/accounts/profile");
 }
 
-function sendLogout(fcmToken: string): Promise<IApiResponse<any>> {
-    return deleteRequest('v1/auth/logout', true, {fcmToken: fcmToken})
+function sendLogout(refreshToken: string): Promise<IApiResponse<any>> {
+    return deleteRequest('v1/auth/logout', true, {refreshToken: refreshToken})
 }
 
 function sendRegister(params: IReqRegister): Promise<IApiResponse<any>> {
     return postRequest('v1/auth/register', false, params);
 }
 
-function sendUpdateRefCode(refCode: string, type: string, regType: string): Promise<IApiResponse<any>> {
-    return postRequest(`v1/users/_me/updateRefCode`, true, {refCode, type, regType});
-}
 
-function sendVerifyAccount(params: { username: string, active_code: string }): Promise<IApiResponse<any>> {
+function sendVerifyAccount(params: { username: string, code: string }): Promise<IApiResponse<any>> {
     return putRequest('v1/auth/verify', false, params);
 }
 
 function sendReSendOtp(username: string): Promise<IApiResponse<any>> {
-    return postRequest('v1/auth/resend_register_code', false, {username: username})
+    return postRequest('v1/auth/resend_code?type=REG', false, {username: username})
 }
 
 function sendForgetPassword(username: string, captcha: string): Promise<IApiResponse<any>> {
@@ -43,7 +40,7 @@ function sendChangePass(params: IReqChangePass): Promise<IApiResponse<any>> {
 }
 
 function sendReActAccRegister(username: string): Promise<IApiResponse<any>> {
-    return postRequest('v1/auth/resend_register_code', false, {username: username});
+    return postRequest('v1/auth/resend_code', false, {username: username});
 }
 
 export {
@@ -51,7 +48,6 @@ export {
     getAccount,
     sendLogout,
     sendRegister,
-    sendUpdateRefCode,
     sendVerifyAccount,
     sendReSendOtp,
     sendForgetPassword,
