@@ -16,7 +16,7 @@ export default class FormLogin extends Component {
        LoginStore.isShowLoginForm=false;
        signUpStore.isSignUpForm=false;
    }
-   
+
     render() {
 
         if(LoginStore.getIsShowLoginForm){

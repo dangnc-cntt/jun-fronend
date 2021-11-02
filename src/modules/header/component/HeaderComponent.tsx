@@ -6,6 +6,8 @@ import {signUpStore} from "../../authen/LoginSignUp/Store/SignUpStore";
 import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
 import {observable} from "mobx";
 import User from "./User";
+//trước trên máy t chạy rồi mà
+//sao k lấy trên máy t
 
 @observer
 export default class HeaderComponent extends Component {
