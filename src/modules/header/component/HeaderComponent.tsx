@@ -6,6 +6,7 @@ import {signUpStore} from "../../authen/LoginSignUp/Store/SignUpStore";
 import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
 import {observable} from "mobx";
 import User from "./User";
+import {categoryStore} from "../../cate/CategoryStore";
 
 @observer
 export default class HeaderComponent extends Component {
@@ -25,7 +26,7 @@ export default class HeaderComponent extends Component {
 
   async componentDidMount() {
     this.handleScroll();
-
+    await categoryStore.getCate()
   }
 
   handleScroll = () => {
@@ -55,10 +56,16 @@ export default class HeaderComponent extends Component {
           <div className="content-header">
             <div className="container d-flex h-100 align-items-center justify-content-between">
               <div className="logo">
-                <img style={{width: `100px`}} src="/assets/images/logo_in.jpg" alt=""/>
+                <img style={{width: `100px`}} src="/assets/images/logo_in.png" alt=""/>
               </div>
-              {LoginStore.userData ? <User/> : <div className="user-header">
-                <div className="icon-user-header position-relative text-right">
+              <div className="search_header d-flex align-items-center">
+                <input type="text" placeholder="Tìm kiếm trên Jun Shop"/>
+                <button className="search_button">
+                  <i className="fal fa-search"/>
+                </button>
+              </div>
+              {LoginStore.userData ? <User/> : <div className="user-header d-flex align-items-center">
+                <div className="icon-user-header mr-2 position-relative text-right">
                   <div className="user-icon d-inline-block d-flex align-items-center">
                     <div className="icon">
                       <i className="fal fa-user"/>
@@ -85,8 +92,9 @@ export default class HeaderComponent extends Component {
                       </div>
                     </div>
                   </div>
-
                 </div>
+                <i className="fal fa-bell mr-4" style={{fontSize: `20px`}}/>
+                <i className="fal fa-shopping-cart" style={{fontSize: `20px`}}/>
               </div>}
             </div>
           </div>

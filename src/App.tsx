@@ -48,11 +48,13 @@ export default class App extends Component {
 
     render() {
         return (
-            <div>
+            <div className="jun_shop">
                 <Router>
                     <Header/>
-                    <div className="container">
-                        <Redirect/>
+                    <div className="wrapper">
+                        <div className="container">
+                            <Redirect/>
+                        </div>
                     </div>
                     <ActiveForm/>
                     <LoginSignup/>
