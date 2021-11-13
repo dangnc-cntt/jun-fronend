@@ -18,11 +18,11 @@ function sendOtpVerify(phoneNumber: string): Promise<IApiResponse<any>> {
 }
 
 function sendUpdatePassword(params: IReqChangePass) {
-    return putRequest('v1/users/_me/password', true, params);
+    return putRequest('v1/auth/forgot_password?collection=update_password', true, params);
 }
 
 function sendCodeChangePass(): Promise<IApiResponse<any>> {
-    return getRequest('v1/users/_me/change_password_code');
+    return getRequest('v1/auth/forgot_password?collection=check_otp');
 }
 
 export {

@@ -1,6 +1,7 @@
 import {addDays, format, subDays} from "date-fns";
 
 
+
 export function setCookie(name: string, value: any, days: number) {
     var expires = "";
     if (days) {
@@ -140,6 +141,30 @@ export function formatNumberPhone(number_phone: string) {
         '$1.$2.'
     );
 }
+
+export async function uploadImage(files: any, type: 'uploadProduct' | 'uploadProfile' | 'uploadCover'): Promise<string> {
+    let data = new FormData();
+    data.append('file', files[0]);
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `${(window as any).REACT_APP_BASE_URL}v1/users/storage/${type}`,
+            data: data,
+            headers: {'x-chozoi-token': localStorage.getItem('token')},
+            // @ts-ignore
+            enctype: 'multipart/form-data',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                resolve(data.url);
+            },
+            error: function (error) {
+                reject(error)
+            }
+        });
+    })
+}
+
 
 export function convertToLocalDate(utcTime: any) {
     const time: number = new Date(utcTime).getTime() / 1000 + 7 * 60 * 60
