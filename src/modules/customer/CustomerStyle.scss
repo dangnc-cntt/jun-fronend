@@ -61,7 +61,7 @@ div#profiles-page {
         padding-top: 16px;
         font-size: 22px;
         color: #000000;
-        font-family: Opensans-Semibold, serif;
+        font-family: "Roboto", sans-serif;
       }
 
       ol, ul {
@@ -77,7 +77,7 @@ div#profiles-page {
           p {
             color: #000000;
             font-size: 15px;
-            font-family: Opensans-Semibold, serif;
+            font-family: "Roboto", sans-serif;
           }
 
           ul {
@@ -107,7 +107,7 @@ div#profiles-page {
                 }
 
                 &.active {
-                  font-family: Opensans-Semibold, serif;
+                  font-family: "Roboto", sans-serif;
                 }
               }
             }
@@ -127,7 +127,7 @@ div#profiles-page {
   div#change-password-page {
     @include change-password;
   }
-
+  //
   //// Vi voucher
   //div#my-voucher-page {
   //  @include my-voucher-style;
@@ -142,5 +142,5 @@ div#profiles-page {
   //div#order-return {
   //  @include order-return-style;
   //}
-  //  ====================== END ===========================
+  ////  ====================== END ===========================
 }

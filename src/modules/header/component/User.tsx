@@ -189,7 +189,7 @@ const user = css`
             p {
               font-size: 15px;
               color: #323639;
-              font-family: "Opensans";
+              font-family: "Roboto", sans-serif;
               transition: .3s;
             }
           }
@@ -221,7 +221,7 @@ const user = css`
         span {
           font-size: 15px;
           color: #323639;
-          font-family: "Opensans";
+          font-family: "Roboto", sans-serif;
           margin-left: 13px;
 
         }
