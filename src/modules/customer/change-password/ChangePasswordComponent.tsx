@@ -51,9 +51,10 @@ export default class ChangePasswordComponent extends React.Component<any, IChang
 
     private initRequestBodyDataChangePassword() {
         this.request_body_data_new_password = {
-            old_password: '',
-            new_password: '',
-            confirm_password: '',
+            username: '',
+            oldPassword: '',
+            newPassword: '',
+            confirmPassword: '',
             code: ''
         };
     }
@@ -61,14 +62,14 @@ export default class ChangePasswordComponent extends React.Component<any, IChang
     protected handlerInputOnChange(event: any, type: 'OLD_PASSWORD' | 'NEW_PASSWORD' | 'RE_NEW_PASSWORD' | 'OTP') {
         switch (type) {
             case "OLD_PASSWORD":
-                (this.request_body_data_new_password as IReqChangePass).old_password = event.currentTarget.value;
+                (this.request_body_data_new_password as IReqChangePass).oldPassword = event.currentTarget.value;
                 break;
             case "NEW_PASSWORD":
-                (this.request_body_data_new_password as IReqChangePass).new_password = event.currentTarget.value;
-                this.getReNewPasswordRef && this.getReNewPasswordRef.validate((this.request_body_data_new_password as IReqChangePass).confirm_password);
+                (this.request_body_data_new_password as IReqChangePass).newPassword = event.currentTarget.value;
+                this.getReNewPasswordRef && this.getReNewPasswordRef.validate((this.request_body_data_new_password as IReqChangePass).confirmPassword);
                 break;
             case "RE_NEW_PASSWORD":
-                (this.request_body_data_new_password as IReqChangePass).confirm_password = event.currentTarget.value;
+                (this.request_body_data_new_password as IReqChangePass).confirmPassword = event.currentTarget.value;
                 break;
             case "OTP":
                 let value = (event.currentTarget.value + '').trim();
@@ -143,7 +144,7 @@ export default class ChangePasswordComponent extends React.Component<any, IChang
                             <label>Mật khẩu mới</label>
                             <Input className="form-control"
                                    ref={this.NewPasswordRef}
-                                   defaultValue={this.request_body_data_new_password ? this.request_body_data_new_password.new_password : ''}
+                                   defaultValue={this.request_body_data_new_password ? this.request_body_data_new_password.newPassword : ''}
                                    onChange={e => this.handlerInputOnChange(e, "NEW_PASSWORD")}
                                    validations={[new Validations(Validations.minLength(6), 'Mật khẩu tối thiểu 6 kí tự.')]}
                                    type={this.state.showNewPassword ? 'text' : 'password'}

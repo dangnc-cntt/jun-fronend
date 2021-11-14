@@ -40,7 +40,7 @@ class HomeComponent extends Component {
                         <h2>Sản phẩm nổi bật</h2>
                         <Link to={`#`}>Xem tất cả <i className="fal fa-angle-right"/></Link>
                     </div>
-                    <div className="list_content">
+                    <div className="list_product">
                         {homeStore.listProductHot && homeStore.listProductHot.map((item, i) => {
                             return <Product data={item} key={i}/>
                         })}
@@ -50,7 +50,7 @@ class HomeComponent extends Component {
                     <div className="title d-flex align-items-center justify-content-center">
                         <h2>Gợi ý cho bạn</h2>
                     </div>
-                    <div className="list_content">
+                    <div className="list_product">
                         {homeStore.listProductAll && homeStore.listProductAll.map((item, i) => {
                             return <Product data={item} key={i}/>
                         })}

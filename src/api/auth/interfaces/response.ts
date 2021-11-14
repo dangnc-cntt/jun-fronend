@@ -10,17 +10,12 @@ export interface IResProfile {
     fullName: string
     birthDay: null | string
     avatarUrl: null | string
+    email: string,
+    referralId: any,
+    phoneNumber: any,
     gender: null | 'MALE' | 'FEMALE'
-    user: {
-        id: number,
-        email: string,
-        phoneNumber: string,
-        role: string,
-        state: string,
-        isSeller: boolean
-    }
-    enablePassport: boolean
-    shopId: null | number
+    username: string,
+    address: string
 }
 
 export interface IResContact {

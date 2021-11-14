@@ -1,7 +1,5 @@
 import React from "react";
 import {observer} from "mobx-react";
-import {UpdateNumberPhone} from './components/UpdatePhoneNumber';
-import {UpdateEmail} from './components/UpdateEmail';
 import {AccountStore} from "./AccountStore";
 import {ACCOUNT_CTRL} from "./AccountControl";
 import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
@@ -57,6 +55,7 @@ export default class AccountComponent extends React.Component<IProps, IState> {
             birthDay: '1970-01-01',
             gender: "MALE",
             name: '',
+            phoneNumber: '',
             enablePassport: (LoginStore.getUserData as any).enablePassport
         };
         this.state = {
@@ -83,15 +82,16 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                 avatarUrl: profile.avatarUrl ? profile.avatarUrl : '',
                 birthDay: profile.birthDay ? profile.birthDay.toString().substr(0, 10) : '1970-01-01',
                 gender: profile.gender ? profile.gender : 'MALE',
-                name: profile.name ? profile.name : '',
+                name: profile.fullName ? profile.fullName : '',
+                phoneNumber: profile.phoneNumber ? profile.phoneNumber : '',
                 enablePassport: (LoginStore.getUserData as any).enablePassport
             };
             this.setState({
-                email: profile.user.email || '',
-                numberPhone: profile.user.phoneNumber || '',
-                name: profile.name || '',
+                email: profile.email || '',
+                numberPhone: profile.phoneNumber || '',
+                name: profile.fullName || '',
                 keyForm: Math.random(),
-                avatarImg: profile.avatarUrl ? profile.avatarUrl : '/assets/icons/profile/avatar_icon.svg',
+                avatarImg: profile.avatarUrl ? profile.avatarUrl : '/assets/images/avatar_icon.svg',
                 enablePassport: (LoginStore.getUserData as any).enablePassport
             });
         }
@@ -223,13 +223,8 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                         <div className="phone">
                             <label>Số điện thoại</label>
                             <div className="d-flex align-items-center" key={formatNumberPhone(this.state.numberPhone)}>
-                                {this.state.numberPhone ? <input type="text" disabled={true} className="border"
-                                                                 defaultValue={formatNumberPhone(this.state.numberPhone)}/> :
-                                    <button type="button" className="bt_add_phone add_phone border"
-                                            data-toggle="modal"
-                                            data-target="#add_phone">
-                                        <i className="fal fa-plus text-center"/> Thêm số điện thoại của bạn
-                                    </button>}
+                                <input type="text"  className="border" onChange={(e: any) => this.dataRequestUpdateProfile.phoneNumber = e.currentTarget.value}
+                                       defaultValue={formatNumberPhone(this.state.numberPhone)}/>
                             </div>
                         </div>
                         <div className="email">
@@ -280,8 +275,6 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                         <Button className="btn update" type={"submit"}>Lưu Lại</Button>
                     </Form>
                 </div>
-                <UpdateNumberPhone/>
-                <UpdateEmail/>
             </div>
         </div>;
     }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {observer} from "mobx-react";
 import {Link} from "react-router-dom";
 import "./ProductStyle.scss"
-import {slug} from "../../common/utils/Utils";
+import {number_format, slug} from "../../common/utils/Utils";
 
 
 @observer
@@ -22,7 +22,7 @@ class Product extends Component<{data: any}, any> {
                     </div>
                     <div className="d-flex align-items-center justify-content-between">
                         <span className="sale_price">
-                            {item.price}
+                            {number_format(item.price)}đ
                         </span>
                         {/*<span className="price">*/}
                         {/*    {item.price}*/}

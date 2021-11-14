@@ -7,6 +7,8 @@ import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
 import {observable} from "mobx";
 import User from "./User";
 import {categoryStore} from "../../cate/CategoryStore";
+import {Link} from "react-router-dom";
+import {slug} from "../../../common/utils/Utils";
 
 @observer
 export default class HeaderComponent extends Component {
@@ -55,8 +57,21 @@ export default class HeaderComponent extends Component {
       <div className="header">
           <div className="content-header">
             <div className="container d-flex h-100 align-items-center justify-content-between">
-              <div className="logo">
-                <img style={{width: `100px`}} src="/assets/images/logo_in.png" alt=""/>
+              <div className="logo d-flex align-items-center">
+                <Link to={'/'}><img style={{width: `100px`}} src="/assets/images/logo_in.png" alt=""/></Link>
+                <div className="category ml-4">
+                  <div className="dropdown">
+                    <div className="dropdown-toggle" id="dropdownMenuCate"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <p>Danh mục sản phẩm</p>
+                    </div>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuCate">
+                      {categoryStore.listCate.map((value, i) => {
+                        return <Link className="dropdown-item" to={`/${slug(value.name)}/${value.id}.html`} key={i}>{value.name}</Link>
+                      })}
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="search_header d-flex align-items-center">
                 <input type="text" placeholder="Tìm kiếm trên Jun Shop"/>

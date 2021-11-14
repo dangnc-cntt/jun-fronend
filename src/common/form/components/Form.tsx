@@ -1,7 +1,6 @@
 import React, {RefObject} from "react";
 import {observer} from "mobx-react";
-import {notify} from "../../notify/NotifyService";
-
+import {toastUtil} from "../../utils/ToastUtil";
 interface IFormProps {
     onSubmit?: any,
     noValidate?: boolean,
@@ -79,7 +78,7 @@ export default class Form extends React.Component<IFormProps, IFormState> {
         if (valid || this.props.noValidate) {
             this.props.onSubmit(e);
         } else if (!valid && !this.props.noValidate) {
-            notify.show('Vui lòng nhập đầy đủ thông tin', "error");
+            toastUtil.error('Vui lòng nhập đầy đủ thông tin');
             console.log('Validate form invalid');
         }
     }

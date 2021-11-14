@@ -12,7 +12,7 @@ class HomeStore{
 
     async getProductAll(){
         try {
-            const result = await getRequest(`/v1/products?page=${this.page}&size=30`);
+            const result = await getRequest(`v1/products?page=${this.page}&size=30`);
             if(result.status === 200){
                 this.listProductAll = result.body.data;
                 this.totalPages = result.body.metadata.totalPages;
@@ -22,10 +22,20 @@ class HomeStore{
         }
     }
 
+    async getProductCate(id: number){
+        try {
+            const result = await getRequest(`v1/products?categoryId=${id}&page=0&size=12`);
+            if(result.status === 200){
+                this.listProductHot = result.body.data;
+            }
+        }catch (e) {
+            return true
+        }
+    }
 
     async getProductHot(){
         try {
-            const result = await getRequest(`/v1/products?isHot=true&page=0&size=12`);
+            const result = await getRequest(`v1/products?isHot=true&page=0&size=12`);
             if(result.status === 200){
                 this.listProductHot = result.body.data;
             }

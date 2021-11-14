@@ -28,8 +28,8 @@ class User extends Component {
                                     <img src={LoginStore.getUserData.avatarUrl} alt=""/>
                                 </div>
                                 <div className="information-user">
-                                    <p className="text-white">Xin chào</p>
-                                    <span className="text-white">{this.converName(LoginStore.getUserData.fullName)}</span>
+                                    <p className="">Xin chào</p>
+                                    <span className="">{this.converName(LoginStore.getUserData.fullName)}</span>
                                 </div>
                             </div> :
                             <div className="d-flex align-items-center">
@@ -37,8 +37,8 @@ class User extends Component {
                                     <img src="/assets/images/img.png" alt=""/>
                                 </div>
                                 <div className="information-user">
-                                    <p className="text-white">Xin chào</p>
-                                    <span className="text-white">{this.converName(LoginStore.getUserData.fullName)}</span>
+                                    <p className="">Xin chào</p>
+                                    <span className="">{this.converName(LoginStore.getUserData.fullName)}</span>
                                 </div>
                             </div>}
                         <div className="list-manager-information">
