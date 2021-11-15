@@ -60,14 +60,6 @@ class User extends Component {
                                         <p>Đơn hàng của tôi</p>
                                     </div>
                                 </Link>
-                                <a className="css_information-user text-center">
-                                    <div className="img">
-                                        <i className="fal fa-envelope-open"/>
-                                    </div>
-                                    <div className="content">
-                                        <p>Tin nhắn của tôi</p>
-                                    </div>
-                                </a>
                                 <Link to="/customer/rate?type=wait-review&page=0"
                                       className="css_information-user text-center">
                                     <div className="img">

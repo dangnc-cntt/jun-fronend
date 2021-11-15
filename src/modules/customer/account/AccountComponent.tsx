@@ -20,14 +20,12 @@ interface IProps {
 
 interface IState {
     avatarImg: string,
+    fullName: string,
     email: string,
-    name: string,
     numberPhone: string,
     keyForm: number,
-    enablePassport: boolean,
     /*Crop Image*/
     keyModal: number,
-    demension: number,
     fileName: string,
     imageSrc: string,
     fileImageTemp: any,
@@ -52,24 +50,22 @@ export default class AccountComponent extends React.Component<IProps, IState> {
 
         this.dataRequestUpdateProfile = {
             avatarUrl: '',
-            birthDay: '1970-01-01',
             gender: "MALE",
-            name: '',
+            fullName: '',
+            address: '',
             phoneNumber: '',
-            enablePassport: (LoginStore.getUserData as any).enablePassport
         };
+
         this.state = {
             avatarImg: '/assets/images/avatar_icon.svg',
+            fullName: '',
             email: '',
-            name: '',
             numberPhone: '',
             keyForm: Math.random(),
             keyModal: Math.random(),
-            demension: 200,
             fileName: '',
             imageSrc: '',
-            fileImageTemp: '',
-            enablePassport: (LoginStore.getUserData as any).enablePassport
+            fileImageTemp: ''
         };
         this.uploadLocalImage = this.uploadLocalImage.bind(this);
     }
@@ -80,19 +76,17 @@ export default class AccountComponent extends React.Component<IProps, IState> {
             const profile = LoginStore.getUserData as any;
             this.dataRequestUpdateProfile = {
                 avatarUrl: profile.avatarUrl ? profile.avatarUrl : '',
-                birthDay: profile.birthDay ? profile.birthDay.toString().substr(0, 10) : '1970-01-01',
                 gender: profile.gender ? profile.gender : 'MALE',
-                name: profile.fullName ? profile.fullName : '',
-                phoneNumber: profile.phoneNumber ? profile.phoneNumber : '',
-                enablePassport: (LoginStore.getUserData as any).enablePassport
+                fullName: profile.fullName ? profile.fullName : '',
+                address: profile.address ? profile.address : '',
+                phoneNumber: profile.phoneNumber ? profile.phoneNumber : ''
             };
             this.setState({
                 email: profile.email || '',
                 numberPhone: profile.phoneNumber || '',
-                name: profile.fullName || '',
+                fullName: profile.fullName || '',
                 keyForm: Math.random(),
-                avatarImg: profile.avatarUrl ? profile.avatarUrl : '/assets/images/avatar_icon.svg',
-                enablePassport: (LoginStore.getUserData as any).enablePassport
+                avatarImg: profile.avatarUrl ? profile.avatarUrl : '/assets/images/avatar_icon.svg'
             });
         }
     }
@@ -103,12 +97,10 @@ export default class AccountComponent extends React.Component<IProps, IState> {
             if (this.state.fileImageTemp) {
                 this.dataRequestUpdateProfile.avatarUrl = await uploadImage(this.state.fileImageTemp, 'uploadProfile') || '';
             }
-            this.dataRequestUpdateProfile.enablePassport = this.state.enablePassport;
             const response = await sendUpdateProfile(this.dataRequestUpdateProfile);
             if (response.status === 200) {
                 await getUserData();
                 toastUtil.success('Cập nhật thành công');
-                // window.location.reload();
             }
         } catch (e) {
             console.error(e)
@@ -211,12 +203,12 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                             <label>Họ và tên</label>
                             <div className="d-flex align-items-center">
                                 <Input type="text" className="border"
-                                       onChange={(e: any) => this.dataRequestUpdateProfile.name = e.currentTarget.value}
+                                       onChange={(e: any) => this.dataRequestUpdateProfile.fullName = e.currentTarget.value}
                                        validations={[
                                            new Validations(Validations.minLength(6), 'Tên phải có tối thiểu 6 ký tự'),
                                            new Validations(Validations.maxLength(50), 'Tên có tối đa 50 ký tự')
                                        ]}
-                                       defaultValue={this.state.name}/>
+                                       defaultValue={this.state.fullName}/>
                                 <Feedback invalid={"true"}/>
                             </div>
                         </FormGroup>
@@ -234,6 +226,14 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                                        disabled={true}/>
                             </div>
                         </div>
+                        <div className="email">
+                            <label>Address</label>
+                            <div className="d-flex align-items-center" key={this.dataRequestUpdateProfile.address}>
+                                <input type="text" defaultValue={this.dataRequestUpdateProfile.address} className="border"
+                                       onChange={(e: any) => this.dataRequestUpdateProfile.address = e.currentTarget.value} />
+                            </div>
+                        </div>
+
                         <div className="gender">
                             <label>Giới tính</label>
                             <div className="d-flex align-items-center">
@@ -247,30 +247,6 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                                        type="radio" className="nu"/> <span>Nữ</span>
                             </div>
 
-                        </div>
-                        <div className="birthday">
-                            <label>Ngày sinh</label>
-                            <div className="d-flex justify-content-between">
-                                <Select
-                                    onChange={(e: any) => this.handlerOnChangeBirthday(e, "day")}
-                                    defaultValue={this.dataRequestUpdateProfile.birthDay.substr(8, 2)}>
-                                    {Array.from(Array(31), ((v, k) => k + 1 < 10 ? '0' + (k + 1) : k + 1)).map((value: number | string, index: number) =>
-                                        <option key={index} value={value.toString()}>{value}</option>)}
-                                </Select>
-                                <Select
-                                    onChange={(e: any) => this.handlerOnChangeBirthday(e, "month")}
-                                    defaultValue={this.dataRequestUpdateProfile.birthDay.substr(5, 2)}>
-                                    {Array.from(Array(12), ((v, k) => k + 1 < 10 ? '0' + (k + 1) : k + 1)).map((value: number | string, index: number) =>
-                                        <option key={index}
-                                                value={value.toString()}>Tháng {value.toString().replace(/^0/, "")}</option>)}
-                                </Select>
-                                <Select defaultValue={this.dataRequestUpdateProfile.birthDay.substr(0, 4)}
-                                        onChange={(e: any) => this.handlerOnChangeBirthday(e, "year")}
-                                >
-                                    {Array.from(Array(new Date().getFullYear() - 1969), ((v, k) => k + 1970)).map((value: number | string, index: number) =>
-                                        <option key={index} value={value.toString()}>{value}</option>)}
-                                </Select>
-                            </div>
                         </div>
                         <Button className="btn update" type={"submit"}>Lưu Lại</Button>
                     </Form>
