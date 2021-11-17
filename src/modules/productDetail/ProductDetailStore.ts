@@ -1,5 +1,7 @@
 import {observable} from "mobx";
 import {productDetailService} from "./ProductDetailService";
+import {toastUtil} from "../../common/utils/ToastUtil";
+import StorageService from "../../common/service/StorageService";
 
 interface IProduct{
     "id": number,
@@ -19,6 +21,7 @@ interface IProduct{
         "createdAt": any,
         "updatedAt": any,
         "id": number,
+        "isActive": boolean
         "color": {
             "id": number,
             "name": string
@@ -34,7 +37,10 @@ interface IProduct{
 
 class ProductDetailStore{
     @observable isLoading: boolean = false;
+    @observable isLoadingButton: boolean = false;
     @observable quantity: number = 1;
+    @observable amount: number = 0;
+    @observable imagesActive: number = 0;
     @observable productDetail: IProduct = {
         "id": 4,
         "code": "023",
@@ -61,6 +67,7 @@ class ProductDetailStore{
                     "id": 1,
                     "name": "Vàng"
                 },
+                isActive: false,
                 "productId": 4,
                 "size": {
                     "id": 3,
@@ -76,6 +83,7 @@ class ProductDetailStore{
                     "id": 2,
                     "name": "Đỏ"
                 },
+                isActive: false,
                 "productId": 4,
                 "size": {
                     "id": 3,
@@ -91,9 +99,24 @@ class ProductDetailStore{
         const result = await productDetailService.getProductDetail(id)
         this.isLoading = false;
         if(result.status === 200){
-            // this.productDetail = result.body
+            this.productDetail = result.body
         }
     }
+
+    async addToCart( optionId: any){
+        if(!optionId){
+            toastUtil.warning("Vui lòng chọn phân loại sản phẩm")
+            return false
+        }
+        this.isLoadingButton = true;
+        const result = await productDetailService.addToCart(productDetailStore.productDetail.id, optionId);
+        this.isLoadingButton = false;
+        if(result.status === 200){
+            toastUtil.success('Thêm sản phẩm thành công')
+        }
+    }
+
+
 }
 
 export const productDetailStore = new ProductDetailStore();

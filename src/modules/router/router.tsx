@@ -12,8 +12,8 @@ export default function Redirect() {
         <div>
             <Route exact path="/" component={HomeComponent}/>
             <Route path="/customer" component={ProfileComponent}/>
-            <Route exact path="/category-product/::slug/:id.html" component={CateProduct}/>
-            <Route exact path="/detail" component={ProductDetail}/>
+            <Route exact path="/category-product/:slug/:id.html" component={CateProduct}/>
+            <Route exact path="/:slug/:id.html" component={ProductDetail}/>
         </div>
     )
 }

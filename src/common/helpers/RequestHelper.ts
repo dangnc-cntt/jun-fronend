@@ -87,8 +87,8 @@ export async function postRequest(path: string, params: object): Promise<IApiRes
 export function apiCall(path: string, _method: Method = "POST", _params: object): Promise<IApiResponse> {
     var newHeaders: any = {'Content-Type': 'application/json'};
 
-    if (StorageService.isTokenExits()) {
-        newHeaders[Constants.TOKEN_NAME] = StorageService.getToken();
+    if (localStorage.getItem('token')) {
+        newHeaders[Constants.TOKEN_NAME] = localStorage.getItem('token');
         createAuthRefreshInterceptor(axios, refreshAuthLogic, {
             pauseInstanceWhileRefreshing: true
         });

@@ -5,6 +5,7 @@ import './ProductDetailStyle.scss'
 import {css} from "@emotion/core";
 import $ from "jquery"
 import {number_format} from "../../common/utils/Utils";
+import {observable} from "mobx";
 
 interface IProps {
    match:{params:{id: any}}
@@ -12,44 +13,66 @@ interface IProps {
 
 @observer
 class ProductDetail extends Component <IProps, any>{
-
+    @observable optionId: any = '';
     async componentDidMount() {
-       // await productDetailStore.getProductDetail(this.props.match.params.id)
+       await productDetailStore.getProductDetail(this.props.match.params.id)
     }
 
+    chooseOption(item: any){
+       this.optionId = item.id;
+       productDetailStore.amount = item.amount
+    }
+
+
     render() {
-        return (
-            <div className="product_detail">
-                <div className="container d-flex">
-                    <div className="images">
-                        <img src={productDetailStore.productDetail.imageUrls[0]} alt=""/>
-                    </div>
-                    <div className="content">
-                        <div className="name">
-                            <h2>{productDetailStore.productDetail.name}</h2>
+        if(productDetailStore.productDetail){
+            return (
+                <div className="product_detail">
+                    <div className="container d-flex">
+                        <div>
+                            <div className="images">
+                                <img src={productDetailStore.productDetail.imageUrls[productDetailStore.imagesActive]} alt=""/>
+                            </div>
+                            <div className="list_img">
+                                {productDetailStore.productDetail.imageUrls && productDetailStore.productDetail.imageUrls.map((item, i) => {
+                                    return <span className={productDetailStore.imagesActive === i ? "active" : ''} key={i}><img src={item} onClick={() => productDetailStore.imagesActive = i} alt=""/></span>
+                                })}
+                            </div>
                         </div>
-                        <p className="price">{number_format(productDetailStore.productDetail.price)}đ</p>
-                        {productDetailStore.productDetail.discount && <p className="css-20dbb9">{productDetailStore.productDetail.discount}% <span>GIẢM</span></p>}
-                        <div className="next-number-picker d-flex align-items-center justify-content-center" css={z}>
-                            <button css={button2} className=" " type="button" onClick={() => subQuantity()}><i
-                                className="far fa-minus"/></button>
-                            <input css={input} className="product-result-quantity" type="text" readOnly
-                                   value={JSON.stringify(productDetailStore.quantity)}/>
-                            <button css={button} className=" " type="button" onClick={() => addQuantity()}><i
-                                className="far fa-plus"/></button>
-                        </div>
-                        <p className="quantity">Còn 20 sản phẩm trong kho</p>
-                        <div className="action-normal d-flex align-items-center" id="product-detail-action">
-                            <button className="add">Thêm vào giỏ</button>
-                            <button className="buy">Mua ngay</button>
-                        </div>
-                        <div className="commitment" css={commitment}>
-                            <span>Cam kết sản phẩm chính hãng</span>
+                        <div className="content">
+                            <div className="name">
+                                <h2>{productDetailStore.productDetail.name}</h2>
+                            </div>
+                            <p className="price">{number_format(productDetailStore.productDetail.price)}đ</p>
+                            {productDetailStore.productDetail.discount && <p className="css-20dbb9 mb-4">{productDetailStore.productDetail.discount}% <span>GIẢM</span></p>}
+                            <div className="d-flex mb-4 options align-items-center">
+                                <label className="mr-4"><strong>Options:</strong></label>
+                                {productDetailStore.productDetail.optionList && productDetailStore.productDetail.optionList.map((item, i) => {
+                                    return <span className={`${item.id == this.optionId ? "active" : ''} mr-2 p-2`} onClick={() => this.chooseOption(item)} key={i}>{item.color.name} - {item.size.name}</span>
+                                })}
+                            </div>
+                            <div className="next-number-picker d-flex align-items-center justify-content-center" css={z}>
+                                <button css={button2} className=" " type="button" onClick={() => subQuantity()}><i
+                                    className="far fa-minus"/></button>
+                                <input css={input} className="product-result-quantity" type="text" readOnly
+                                       value={JSON.stringify(productDetailStore.quantity)}/>
+                                <button css={button} className=" " type="button" onClick={() => addQuantity()}><i
+                                    className="far fa-plus"/></button>
+                            </div>
+                            {productDetailStore.amount > 0 && <p className="quantity">Còn ${number_format(productDetailStore.amount)} sản phẩm trong kho</p>}
+                            <div className="action-normal d-flex align-items-center" id="product-detail-action">
+                                <button className="add" onClick={() => productDetailStore.addToCart(this.optionId)}>Thêm vào giỏ</button>
+                                <button className="buy">Mua ngay</button>
+                            </div>
+                            <div className="commitment" css={commitment}>
+                                <span>Cam kết sản phẩm chính hãng</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }else return null
+
     }
 }
 
@@ -61,11 +84,6 @@ export function addQuantity() {
         productDetailStore.quantity = productDetailStore.quantity + 1
         $('.product-result-quantity').prop('value', productDetailStore.quantity)
     }
-    // if (!productDetailStore.restQuantity) {
-    //     productDetailStore.quantity = productDetailStore.quantity + 1
-    //     $('.product-result-quantity').prop('value', productDetailStore.quantity)
-    // }
-
 }
 
 export function subQuantity() {

@@ -12,7 +12,7 @@ class Product extends Component<{data: any}, any> {
         let item = this.props.data;
 
         return (
-            <Link to={`${slug(item.name)}.${item.id}.html`} className="card_product">
+            <Link to={`/${slug(item.name)}/${item.id}.html`} className="card_product">
                 <div className="images">
                     <img src={item.imageUrls[0]} alt=""/>
                 </div>
