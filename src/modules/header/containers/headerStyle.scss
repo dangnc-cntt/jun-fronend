@@ -7,7 +7,7 @@
     right: 0;
     width: 100%;
     height: 80px;
-    z-index: 1200;
+    z-index: 1020;
     position: fixed;
     background-color: white;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
@@ -196,6 +196,41 @@
           }
         }
 
+      }
+      .cart-notice {
+        position: relative;
+
+        &:hover .content_shopping_cart {
+          display: block !important;
+          opacity: 1;
+          @keyframes fade {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          animation: fade ease-in .3s;
+        }
+
+        &:hover .no_content_shopping_cart {
+          display: block !important;
+          opacity: 1;
+          @keyframes fade {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          animation: fade ease-in .3s;
+        }
+      }
+
+      .content_shopping_cart {
+        opacity: 0;
       }
     }
   }

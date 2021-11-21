@@ -1,0 +1,25 @@
+@mixin breadcrumbs {
+  background-color: transparent;
+  border-bottom: solid 1px #ECECEC;
+  border-radius: unset;
+  margin-bottom: 14px;
+  padding: 0;
+
+  li.breadcrumb-item {
+    font-size: 13px;
+    line-height: 30px;
+
+    &:not(:first-of-type):before {
+      content: "\f105";
+      font-family: "Font Awesome 5 Pro", serif;
+    }
+
+    a {
+      color: #999999;
+    }
+
+    &.active {
+      color: #000000;
+    }
+  }
+}

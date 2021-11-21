@@ -11,6 +11,7 @@ import LoginSignup from "./modules/authen/LoginSignUp/components/index";
 import {LoginStore} from "./modules/authen/LoginSignUp/Store/LoginStore";
 import {getUserData} from "./modules/authen/LoginSignUp/Reducers/LoginReducer";
 import ActiveForm from "./modules/authen/LoginSignUp/components/ActiveForm";
+import {cartStore} from "./modules/cart/CartStore";
 
 @observer
 export default class App extends Component {

@@ -6,6 +6,7 @@ import {css} from "@emotion/core";
 import $ from "jquery"
 import {number_format} from "../../common/utils/Utils";
 import {observable} from "mobx";
+import {cartStore} from "../cart/CartStore";
 
 interface IProps {
    match:{params:{id: any}}
@@ -26,6 +27,10 @@ class ProductDetail extends Component <IProps, any>{
 
     render() {
         if(productDetailStore.productDetail){
+            let id = productDetailStore.productDetail.id;
+            let price = productDetailStore.productDetail.price;
+            let salePrice = productDetailStore.productDetail.price - productDetailStore.productDetail.discount;
+            const discount = price > salePrice ? Math.ceil((price - salePrice) / price * 100) : 0;
             return (
                 <div className="product_detail">
                     <div className="container d-flex">
@@ -43,14 +48,16 @@ class ProductDetail extends Component <IProps, any>{
                             <div className="name">
                                 <h2>{productDetailStore.productDetail.name}</h2>
                             </div>
-                            <p className="price">{number_format(productDetailStore.productDetail.price)}đ</p>
-                            {productDetailStore.productDetail.discount && <p className="css-20dbb9 mb-4">{productDetailStore.productDetail.discount}% <span>GIẢM</span></p>}
-                            <div className="d-flex mb-4 options align-items-center">
-                                <label className="mr-4"><strong>Options:</strong></label>
-                                {productDetailStore.productDetail.optionList && productDetailStore.productDetail.optionList.map((item, i) => {
+                            <div className="d-flex align-items-center">
+                                <p className="salePrice mr-4">{number_format(salePrice)}đ</p> <span className="price">{number_format(price)}đ</span>
+                            </div>
+                            {discount > 0 && <p className="discount mb-4">{discount}% <span className="ml-1">GIẢM</span></p>}
+                            {productDetailStore.productDetail.optionList && <div className="d-flex mb-4 options align-items-center">
+                                <label className="mr-4"><strong>Phân loại:</strong></label>
+                                {productDetailStore.productDetail.optionList.map((item, i) => {
                                     return <span className={`${item.id == this.optionId ? "active" : ''} mr-2 p-2`} onClick={() => this.chooseOption(item)} key={i}>{item.color.name} - {item.size.name}</span>
                                 })}
-                            </div>
+                            </div>}
                             <div className="next-number-picker d-flex align-items-center justify-content-center" css={z}>
                                 <button css={button2} className=" " type="button" onClick={() => subQuantity()}><i
                                     className="far fa-minus"/></button>
@@ -59,9 +66,11 @@ class ProductDetail extends Component <IProps, any>{
                                 <button css={button} className=" " type="button" onClick={() => addQuantity()}><i
                                     className="far fa-plus"/></button>
                             </div>
-                            {productDetailStore.amount > 0 && <p className="quantity">Còn ${number_format(productDetailStore.amount)} sản phẩm trong kho</p>}
+                            <p className="quantity">
+                                {productDetailStore.amount !== -1 && (productDetailStore.amount > 0 ? `Còn ${number_format(productDetailStore.amount)} sản phẩm trong kho` : <span className="text-danger">Hết hàng</span>)}
+                            </p>
                             <div className="action-normal d-flex align-items-center" id="product-detail-action">
-                                <button className="add" onClick={() => productDetailStore.addToCart(this.optionId)}>Thêm vào giỏ</button>
+                                <button className="add" onClick={() => cartStore.addToCart(id, this.optionId, productDetailStore.quantity, productDetailStore.amount)}>Thêm vào giỏ</button>
                                 <button className="buy">Mua ngay</button>
                             </div>
                             <div className="commitment" css={commitment}>
@@ -94,7 +103,7 @@ export function subQuantity() {
 }
 
 const commitment = css`
-  padding: 24px 0 14px;
+  padding: 32px 0 14px;
   margin-top: 40px;
   border-top: 1px solid #E1E1E1;
   span{

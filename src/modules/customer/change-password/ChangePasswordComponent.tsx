@@ -3,9 +3,10 @@ import {observer} from "mobx-react";
 import {PROFILE_CTRL} from "../CustomerControl";
 import {Form, FormGroup, Input, Feedback, Validations} from "../../../common/form";
 import {IReqChangePass} from "../../../api/account/interfaces/request";
-import {sendCodeChangePass, sendUpdatePassword} from "../../../api/account";
+import {sendChangePass} from "../../../api/account";
 import {store} from "../CustomerStore";
 import {toastUtil} from "../../../common/utils/ToastUtil";
+import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
 
 interface IChangePasswordComponentState {
     showOldPassword: boolean
@@ -51,64 +52,34 @@ export default class ChangePasswordComponent extends React.Component<any, IChang
 
     private initRequestBodyDataChangePassword() {
         this.request_body_data_new_password = {
-            username: '',
+            username: LoginStore.getUserData ? LoginStore.getUserData.username : '',
             oldPassword: '',
             newPassword: '',
-            confirmPassword: '',
-            code: ''
+            confirmedPassword: ''
         };
     }
 
-    protected handlerInputOnChange(event: any, type: 'OLD_PASSWORD' | 'NEW_PASSWORD' | 'RE_NEW_PASSWORD' | 'OTP') {
+    protected handlerInputOnChange(event: any, type: 'OLD_PASSWORD' | 'NEW_PASSWORD' | 'RE_NEW_PASSWORD') {
         switch (type) {
             case "OLD_PASSWORD":
                 (this.request_body_data_new_password as IReqChangePass).oldPassword = event.currentTarget.value;
                 break;
             case "NEW_PASSWORD":
                 (this.request_body_data_new_password as IReqChangePass).newPassword = event.currentTarget.value;
-                this.getReNewPasswordRef && this.getReNewPasswordRef.validate((this.request_body_data_new_password as IReqChangePass).confirmPassword);
+                this.getReNewPasswordRef && this.getReNewPasswordRef.validate((this.request_body_data_new_password as IReqChangePass).confirmedPassword);
                 break;
             case "RE_NEW_PASSWORD":
-                (this.request_body_data_new_password as IReqChangePass).confirmPassword = event.currentTarget.value;
-                break;
-            case "OTP":
-                let value = (event.currentTarget.value + '').trim();
-                if (value) {
-                    value = value.replace(/[^0-9]/g, '');
-                    this.request_body_data_new_password && (this.request_body_data_new_password.code = value);
-                    event.currentTarget.value = value;
-                }
+                (this.request_body_data_new_password as IReqChangePass).confirmedPassword = event.currentTarget.value;
                 break;
         }
     }
 
-    protected async handlerSendOTP() {
-        try {
-            this.setState({disabledGetOTP: true});
-            const response = await sendCodeChangePass();
-            if (response.status === 202) {
-                this.requested_otp = true;
-                toastUtil.success(response.body.message);
-                this.setState({countDown: this.state.countDown - 1});
-                const count_down_interval = setInterval(() => {
-                    if (this.state.countDown > 1) {
-                        this.setState({countDown: this.state.countDown - 1});
-                    } else {
-                        this.setState({countDown: DEFINED_COUNTDOWN, disabledGetOTP: false});
-                        clearInterval(count_down_interval);
-                    }
-                }, 1000);
-            }
-        } catch (e) {
-            console.error(e);
-        }
-    }
 
     protected async handlerOnSubmit(event: any) {
         try {
             this.setState({disabledSubmit: true});
             setTimeout(() => this.state.disabledSubmit && this.setState({disabledSubmit: false}), DEFINED_REQUEST_TIMEOUT * 1000);
-            const response = await sendUpdatePassword(this.request_body_data_new_password as IReqChangePass);
+            const response = await sendChangePass(this.request_body_data_new_password as IReqChangePass);
             if (response.status === 200) {
                 toastUtil.success('Mật khẩu đã được thay đổi!');
                 this.initRequestBodyDataChangePassword();
@@ -172,21 +143,6 @@ export default class ChangePasswordComponent extends React.Component<any, IChang
                             <Feedback invalid={"true"}/>
                         </FormGroup>
 
-                        <FormGroup className="form-group otp">
-                            <label>Mã xác thực</label>
-                            <div className="d-flex">
-                                <Input className="form-control"
-                                       onChange={e => this.handlerInputOnChange(e, "OTP")}
-                                       validations={[new Validations(Validations.regexp(/^\d{6}$/g), 'Mã OTP bao gồm 6 chữ số')]}
-                                       placeholder="Mã OTP"
-                                />
-                                <button className="btn btn-otp"
-                                        disabled={this.state.disabledGetOTP}
-                                        onClick={() => this.handlerSendOTP()}> {this.state.countDown === DEFINED_COUNTDOWN ? (this.requested_otp ? 'Gửi lại mã' : 'Gửi mã') : this.state.countDown + 's'}
-                                </button>
-                            </div>
-                            <Feedback invalid={"true"}/>
-                        </FormGroup>
 
                         <div className="form-group">
                             <button className="btn btn-primary"

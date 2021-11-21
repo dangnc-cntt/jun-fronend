@@ -8,8 +8,7 @@ export interface IReqUpdateProfile {
 
 export interface IReqChangePass {
     oldPassword: string,
-    username: string,
+    username: any,
     newPassword: string,
-    confirmPassword: string,
-    code: string
+    confirmedPassword: string
 }

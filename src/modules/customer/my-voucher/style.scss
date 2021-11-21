@@ -1,0 +1,162 @@
+@import "src/modules/cart/styles/CouponStyle";
+@import "src/modules/cart/styles/ModalRuleStyle";
+
+@mixin my-voucher-style {
+  min-height: 100%;
+  background-color: white;
+  .card {
+    border: none;
+    border-radius: unset;
+  }
+  .card-header {
+    border-bottom: solid 2px #E1E1E1;
+    padding: 16px;
+    background-color: transparent;
+
+    p.title {
+      color: #000000;
+      font-size: 22px;
+    }
+  }
+  .card-body {
+    padding: 16px;
+
+    ol.provider {
+      width: 560px;
+      display: flex;
+      margin: 0 auto 16px;
+
+      li {
+        width: 280px;
+        height: 40px;
+        line-height: 40px;
+        border: solid 1px #E1E1E1;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+
+        a {
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          text-align: center;
+          color: #000000;
+          font-size: 15px;
+
+          &:hover {
+            color: initial;
+          }
+        }
+
+        &.active {
+          border-color: #FFE8DA;
+          background-color: #FFE8DA;
+
+          a {
+            color: #F54B24;
+          }
+        }
+
+        &.active + li {
+          border-left: transparent;
+        }
+      }
+    }
+
+    ol.tab {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      border-bottom: solid 1px #ECECEC;
+
+      li {
+        line-height: 34px;
+        margin-bottom: -1px;
+
+        a {
+          color: #000000;
+          font-size: 15px;
+          padding: 0 18px;
+        }
+
+        &.active {
+          border-bottom: solid 3px #F54B24;
+
+          a {
+            color: #F54B24;
+          }
+        }
+      }
+    }
+
+    div.list-voucher {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 16px 0;
+      margin-left: -16px;
+
+      div.coupon {
+        @include coupon-style;
+        //Override css
+        div.bg {
+          position: relative;
+
+          button {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            width: unset !important;
+            border: none !important;
+            color: #2F6BFF !important;
+            font-size: 13px !important;
+            background-color: transparent !important;
+          }
+        }
+
+        margin-left: 16px;
+        margin-bottom: 16px;
+
+        div.colum-1 div.shop-avatar {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          position: relative;
+
+          img {
+            width: 60px;
+            height: 60px;
+            background-color: #F54B24;
+            border-radius: 50%;
+          }
+
+          a {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            opacity: 0;
+          }
+        }
+      }
+
+    }
+  }
+  .card-footer {
+    border-top: none;
+    background-color: transparent;
+  }
+
+  div.modal#modal-coupon-role {
+    @include modal-rule;
+  }
+}

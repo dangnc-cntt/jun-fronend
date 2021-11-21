@@ -1,0 +1,51 @@
+@mixin order-manager-style {
+  .card {
+    border: none;
+    border-radius: unset;
+  }
+  .card-header {
+    border-bottom: solid 2px #E1E1E1;
+    padding: 16px;
+    background-color: transparent;
+
+    p.title {
+      color: #000000;
+      font-size: 22px;
+      margin-top: 0;
+      font-family: Opensans-Semibold, serif;
+    }
+  }
+  .card-body {
+    ol.tab {
+      width: 100%;
+      margin: 0;
+      display: flex;
+      border-bottom: solid 1px #ECECEC;
+      background-color: white !important;
+
+      li {
+        line-height: 34px;
+        margin-bottom: -1px;
+
+        a {
+          color: #000000;
+          font-size: 15px;
+          padding: 0 18px;
+        }
+
+        &.active {
+          border-bottom: solid 3px #F54B24;
+
+          a {
+            color: #F54B24;
+            font-family: Opensans-Semibold, serif;
+          }
+        }
+      }
+    }
+  }
+  .card-footer {
+    border-top: none;
+    background-color: transparent;
+  }
+}

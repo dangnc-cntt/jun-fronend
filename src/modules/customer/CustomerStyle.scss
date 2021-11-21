@@ -1,5 +1,7 @@
 @import "account/styles";
 @import "change-password/ChangePassswordStyle";
+@import "my-voucher/style";
+@import "orderManage/style";
 
 div#profiles-page {
   .container {
@@ -127,20 +129,15 @@ div#profiles-page {
   div#change-password-page {
     @include change-password;
   }
-  //
-  //// Vi voucher
-  //div#my-voucher-page {
-  //  @include my-voucher-style;
-  //}
-  //
-  //// Quan ly don
-  //div#order-manager {
-  //  @include order-manager-style;
-  //}
-  //
-  //// Don hoan tra
-  //div#order-return {
-  //  @include order-return-style;
-  //}
-  ////  ====================== END ===========================
+
+  // Vi voucher
+  div#my-voucher-page {
+    @include my-voucher-style;
+  }
+
+  // Quan ly don
+  div#order-manager {
+    @include order-manager-style;
+  }
+
 }

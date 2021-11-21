@@ -6,7 +6,7 @@ class ToastUtil{
     public info(message:string) {
         toast.info(message, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -17,7 +17,7 @@ class ToastUtil{
     public success(message:string) {
         toast.success(message, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -28,7 +28,7 @@ class ToastUtil{
     public warning(message:string) {
         toast.warn(message, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -39,7 +39,7 @@ class ToastUtil{
     public error(message:string) {
         toast.error(message, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

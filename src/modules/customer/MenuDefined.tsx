@@ -35,33 +35,12 @@ export const MenuDefined: IMenu[] = [
                 link: '/customer/change-password'
             },
             {
-                id: 4,
-                sort: 6,
-                icon: <i className="fal fa-map-marker-alt"/>,
-                name: 'Sổ địa chỉ',
-                link: '/customer/address'
-            },
-            {
-                id: 5,
-                sort: 7,
-                icon: <i className="fal fa-university"/>,
-                name: 'Ngân hàng của tôi',
-                link: '/customer/account/bank'
-            },
-            {
                 id: 6,
                 sort: 8,
                 icon: <i className="fal fa-wallet"/>,
                 name: 'Ví voucher',
-                link: '/customer/voucher?type=available&provider=chozoi&page=0'
-            },
-            {
-                id: 8,
-                sort: 10,
-                icon: <i className="fal fa-bell"/>,
-                name: 'Thông báo của tôi',
-                link: '/customer/my-notice'
-            },
+                link: '/customer/voucher'
+            }
         ]
     },
     {

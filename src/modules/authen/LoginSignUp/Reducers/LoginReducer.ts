@@ -5,6 +5,7 @@ import {resendCode} from "./SignUpReducer";
 import {eraseCookie} from "../../../../common/utils/Utils";
 import {getAccount, sendLogin, sendLogout, sendReActAccRegister} from "../../../../api/auth";
 import {toastUtil} from "../../../../common/utils/ToastUtil";
+import {cartStore} from "../../../cart/CartStore";
 
 export function setUserNameValue(e: any) {
   LoginStore.username = e.target.value;
@@ -94,6 +95,7 @@ export async function getUserData() {
       window.location.href = '/';
     } else {
       LoginStore.userData = body;
+      await cartStore.getCart();
       // getListContact();
     }
   } catch (e) {

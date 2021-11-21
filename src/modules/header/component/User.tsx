@@ -117,7 +117,7 @@ const user = css`
 
     .list-manager-information {
       width: 280px;
-      height: 253px;
+      height: 209px;
       border-radius: 4px;
       background: white;
       opacity: 0;

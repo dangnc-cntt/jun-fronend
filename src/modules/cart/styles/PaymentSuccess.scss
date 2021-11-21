@@ -1,0 +1,122 @@
+div#cart-payment-result {
+  font-size: 15px;
+  margin-top: 16px;
+
+  .container {
+    &:not(.footer) {
+      background-color: white;
+      border-radius: 4px;
+
+      div.content {
+        width: 608px;
+        display: flex;
+        flex-direction: column;
+        margin: 16px auto 0;
+        align-items: center;
+
+        img {
+          width: 120px;
+          height: 120px;
+          background-color: #cccccc;
+          border-radius: 60px;
+          margin-top: 24px;
+        }
+
+        p.title {
+          padding: 16px 0;
+          font-size: 17px;
+        }
+
+
+        & > label {
+          color: #383D41;
+          align-self: start;
+          margin-bottom: 8px;
+        }
+
+        ul {
+          list-style: none;
+          margin: 0;
+          padding: 0 16px;
+          border: solid 1px #E1E1E1;
+          border-radius: 4px;
+          width: 100%;
+
+          li {
+            padding: 16px 0;
+            display: flex;
+            justify-content: space-between;
+
+            & > div {
+              color: #383D41;
+
+              a {
+                color: #2F6BFF;
+              }
+            }
+
+            &:not(:first-of-type) {
+              border-top: solid 1px #E1E1E1;
+            }
+
+          }
+        }
+
+        div.footer {
+          font-size: 13px;
+          background-color: white;
+          p {
+            margin: 16px 0;
+            text-align: center;
+          }
+
+          div.btn {
+            display: flex;
+            justify-content: center;
+            margin: 16px 0 0;
+            padding-bottom: 0;
+
+            button {
+              font-size: 13px;
+
+              a {
+                color: black;
+              }
+
+              border-radius: 4px;
+              border: solid 1px #F54B24;
+              background-color: white;
+              padding: 8px 16px;
+            }
+          }
+        }
+      }
+    }
+
+    &.footer {
+      display: flex;
+      justify-content: center;
+
+      button {
+        color: white;
+        font-size: 15px;
+        border: none;
+        padding: 14px 56px;
+        border-radius: 4px;
+        background-color: #F54B24;
+
+        a {
+          color: white;
+        }
+      }
+    }
+
+    @media only screen {
+      max-width: 1208px;
+    }
+
+    @media only screen and (min-width: 1700px) {
+      max-width: 1400px;
+    }
+  }
+}

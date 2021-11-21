@@ -1,0 +1,28 @@
+@mixin modal-rule {
+  padding: 0 !important;
+  background-color: rgba(0, 0, 0, .5);
+  .modal-dialog {
+    max-width: 500px;
+  }
+  .modal-content {
+    margin-left: -8px;
+  }
+  .modal-header {
+    font-size: 17px;
+    font-family: Opensans-Semibold, serif;
+  }
+  .modal-body {
+    padding: 16px;
+  }
+  .modal-footer {
+    button {
+      background-color: #F54B24;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      line-height: 40px;
+      font-size: 13px;
+      padding: 0 30px;
+    }
+  }
+}

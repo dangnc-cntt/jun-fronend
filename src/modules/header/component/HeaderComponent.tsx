@@ -9,6 +9,8 @@ import User from "./User";
 import {categoryStore} from "../../cate/CategoryStore";
 import {Link} from "react-router-dom";
 import {slug} from "../../../common/utils/Utils";
+import {cartStore} from "../../cart/CartStore";
+import QuickViewCart from "../../cart/components/QuickViewCart";
 
 @observer
 export default class HeaderComponent extends Component {
@@ -79,7 +81,23 @@ export default class HeaderComponent extends Component {
                   <i className="fal fa-search"/>
                 </button>
               </div>
-              {LoginStore.userData ? <User/> : <div className="user-header d-flex align-items-center">
+              {LoginStore.userData ? <div className="d-flex align-items-center">
+                <User/>
+                <div className="cart-notice position-relative ml-4">
+                  <i className="fal fa-shopping-cart" style={{fontSize: `20px`}}/>
+                  {cartStore.listCart && cartStore.listCart.length > 0 && <span className="user_itemCount d-flex align-items-center justify-content-center position-absolute" style={{
+                    width: `30px`,
+                    height: `20px`,
+                    borderRadius: `16px`,
+                    background: `rgb(245, 75, 36)`,
+                    color: `white`,
+                    fontSize: `12px`,
+                    top: `-10px`,
+                    right: `-24px`
+                  }}>{cartStore.listCart.length}</span>}
+                  <QuickViewCart/>
+                </div>
+              </div> : <div className="user-header d-flex align-items-center">
                 <div className="icon-user-header mr-2 position-relative text-right">
                   <div className="user-icon d-inline-block d-flex align-items-center">
                     <div className="icon">
@@ -117,5 +135,3 @@ export default class HeaderComponent extends Component {
     );
   }
 }
-
-// anh nam goi ty lam tiep nha vc
