@@ -70,7 +70,7 @@ export default class StatusOrder extends Component<IProps> {
         if (state === "COMPLETED") {
             return (
                 <p css={State3}>
-                    Đã giao
+                    Hoàn thành
                 </p>
             )
         }

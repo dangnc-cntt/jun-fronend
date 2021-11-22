@@ -9,7 +9,7 @@ import {observable} from "mobx";
 import {cartStore} from "../cart/CartStore";
 
 interface IProps {
-   match:{params:{id: any}}
+   match:{ params: {id: any}}
 }
 
 @observer
