@@ -37,6 +37,7 @@ export default class OrderManage extends Component<IProps> {
         }
     }
 
+
     render() {
         return (
             <div id="order-manager">

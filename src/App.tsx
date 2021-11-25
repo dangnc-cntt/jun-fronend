@@ -12,6 +12,7 @@ import {LoginStore} from "./modules/authen/LoginSignUp/Store/LoginStore";
 import {getUserData} from "./modules/authen/LoginSignUp/Reducers/LoginReducer";
 import ActiveForm from "./modules/authen/LoginSignUp/components/ActiveForm";
 import {cartStore} from "./modules/cart/CartStore";
+import {css} from "@emotion/core";
 
 @observer
 export default class App extends Component {
@@ -57,6 +58,11 @@ export default class App extends Component {
                             <Redirect/>
                         </div>
                     </div>
+                    <div className="footer" css={footer}>
+                        <div className="container d-flex align-items-center justify-content-center">
+
+                        </div>
+                    </div>
                     <ActiveForm/>
                     <LoginSignup/>
                 </Router>
@@ -70,3 +76,17 @@ export default class App extends Component {
 
 
 const Header = lazy(() => import('./modules/header/component/HeaderComponent'));
+
+
+
+const footer = css`
+  width: 100%;
+  height: auto;
+  padding: 20px 0;
+  margin-top: 16px;
+  background-color: #323639;
+  .container{
+    width: 100%;
+    height: 250px;
+  }
+`

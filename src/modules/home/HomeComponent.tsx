@@ -33,8 +33,7 @@ class HomeComponent extends Component {
         return (
             <div className="home-page">
                 <div className="banner d-flex align-items-center justify-content-center">
-                    <p>It's Banner</p>
-                    <img src="./assets/images/banner13-1.jpg" alt=""/>
+                    <img className="w-100 h-100" style={{objectFit: 'cover'}} src="./assets/images/banner13-1.jpg" alt=""/>
                 </div>
                 <div className="product_hot">
                     <div className="title d-flex align-items-center justify-content-between">

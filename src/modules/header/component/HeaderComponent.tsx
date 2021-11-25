@@ -63,9 +63,8 @@ export default class HeaderComponent extends Component {
                 <Link to={'/'}><img style={{width: `100px`}} src="/assets/images/logo_in.png" alt=""/></Link>
                 <div className="category ml-4">
                   <div className="dropdown">
-                    <div className="dropdown-toggle" id="dropdownMenuCate"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <p>Danh mục sản phẩm</p>
+                    <div className="dropdown-toggle" id="dropdownMenuCate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <p>Danh mục sản phẩm</p> <i className="fal fa-angle-down"/>
                     </div>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuCate">
                       {categoryStore.listCate.map((value, i) => {

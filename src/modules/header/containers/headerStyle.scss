@@ -16,6 +16,12 @@
       .logo{
         width: 270px;
       }
+      .category .dropdown-toggle{
+        cursor: pointer;
+        &:after{
+          display: none;
+        }
+      }
       .search_header{
         input{
           width: 500px;
