@@ -93,7 +93,7 @@ export default class ChangePasswordComponent extends React.Component<any, IChang
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return <div id="change-password-page">
-            <div className="card">
+            <div className="">
                 <div className="card-header">
                     <p className="title">Thay đổi mật khẩu</p>
                 </div>

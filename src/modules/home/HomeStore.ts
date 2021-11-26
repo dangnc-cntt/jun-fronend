@@ -4,6 +4,7 @@ import {getRequest} from "../../common/helpers/RequestHelper";
 class HomeStore{
     @observable page: number = 0;
     @observable totalPages: number = 0;
+    @observable totalPagesHot: number = 0;
     @observable isLoading: boolean = false;
     @observable isLoadingBt: boolean = false;
     @observable listProductAll: any[] = [];
@@ -27,6 +28,7 @@ class HomeStore{
             const result = await getRequest(`v1/products?categoryId=${id}&page=0&size=12`);
             if(result.status === 200){
                 this.listProductHot = result.body.data;
+                this.totalPagesHot = result.body.metadata.totalPages;
             }
         }catch (e) {
             return true
@@ -38,6 +40,7 @@ class HomeStore{
             const result = await getRequest(`v1/products?isHot=true&page=0&size=12`);
             if(result.status === 200){
                 this.listProductHot = result.body.data;
+                this.totalPagesHot = result.body.metadata.totalPages;
             }
         }catch (e) {
             return true

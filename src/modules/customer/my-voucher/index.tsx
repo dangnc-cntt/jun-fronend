@@ -33,7 +33,7 @@ export default class MyVoucher extends React.Component<IIndexProps, any> {
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return <div id="my-voucher-page">
-            <div className="card">
+            <div className="">
                 <div className="card-header">
                     <p className="title">Ví voucher</p>
                 </div>

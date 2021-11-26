@@ -69,7 +69,7 @@ export default class CustomerComponent extends React.Component<IProps, any> {
                         </div>
                     </div>
                 </div>
-                <div className="container content">
+                <div className="container content" style={{minHeight: `500px`}}>
                     {/*Menu*/}
                     <div className="row menu mx-0">
                         <div className="col-2">
