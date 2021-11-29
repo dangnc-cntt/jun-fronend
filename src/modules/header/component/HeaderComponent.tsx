@@ -68,7 +68,7 @@ export default class HeaderComponent extends Component {
                     </div>
                     <div className="dropdown-menu" aria-labelledby="dropdownMenuCate">
                       {categoryStore.listCate.map((value, i) => {
-                        return <Link className="dropdown-item" to={`/${slug(value.name)}/${value.id}.html`} key={i}>{value.name}</Link>
+                        return <Link className="dropdown-item" to={`/category-product/${slug(value.name)}/${value.id}.html`} key={i}>{value.name}</Link>
                       })}
                     </div>
                   </div>

@@ -23,17 +23,6 @@ class HomeStore{
         }
     }
 
-    async getProductCate(id: number){
-        try {
-            const result = await getRequest(`v1/products?categoryId=${id}&page=0&size=12`);
-            if(result.status === 200){
-                this.listProductHot = result.body.data;
-                this.totalPagesHot = result.body.metadata.totalPages;
-            }
-        }catch (e) {
-            return true
-        }
-    }
 
     async getProductHot(){
         try {
