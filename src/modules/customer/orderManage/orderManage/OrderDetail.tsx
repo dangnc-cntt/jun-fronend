@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import {observer} from "mobx-react";
-import {orderStore} from "../../customer/orderManage/store";
-import StatusOrder from "../../customer/orderManage/orderManage/StatusOrder";
-import {getLocalDateTime, number_format, slug} from "../../../common/utils/Utils";
+import {orderStore} from "../store";
+import StatusOrder from "./component/StatusOrder";
+import {getLocalDateTime, number_format, slug} from "../../../../common/utils/Utils";
 import {Link} from "react-router-dom";
 import {css} from "@emotion/core";
-import {getRequest} from "../../../api";
+import {getRequest} from "../../../../api";
 import {observable} from "mobx";
-import {PROFILE_CTRL} from "../../customer/CustomerControl";
-import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
+import {PROFILE_CTRL} from "../../CustomerControl";
+import {LoginStore} from "../../../authen/LoginSignUp/Store/LoginStore";
+import OrderRate from "./OrderRate";
 
 interface IProps {
     match:{ params: {id: any}}
@@ -116,8 +117,8 @@ class OrderDetail extends Component<IProps, any> {
                                 </div>
                                 {item.products.map((product: any,  key: number) => {
                                     return(
-                                        <Link to={'/' + slug(product.name) + '/' + product.id + '.html'} className="product d-flex align-items-center justify-content-between" key={key}>
-                                            <div className="d-flex align-items-center">
+                                        <div className="product d-flex align-items-center justify-content-between" key={key}>
+                                            <Link to={'/' + slug(product.name) + '/' + product.id + '.html'} className="d-flex align-items-center">
                                                 <div className="images"
                                                      style={{width: 60, height: 60, marginRight: 16}}>
                                                     <img src={product.imageUrls} alt="" style={{width: 60, height: 60}} />
@@ -130,9 +131,13 @@ class OrderDetail extends Component<IProps, any> {
                                                         <span className="ml-2">Size: {product.option.size.name}</span>
                                                     </div>
                                                 </div>
+                                            </Link>
+                                            <div className="d-flex align-items-center">
+                                                {item.state === "COMPLETED" &&
+                                                <button css={btn1} onClick={() => orderStore.detailProduct = product} data-toggle="modal" data-target="#modal-rating">Đánh giá</button>}
+                                                <span><strong>{number_format((product.price - product.discount) * product.option.amount)} đ</strong></span>
                                             </div>
-                                            <span><strong>{number_format((product.price - product.discount) * product.option.amount)} đ</strong></span>
-                                        </Link>
+                                        </div>
                                     )
                                 })}
                                 <div css={action}>
@@ -140,13 +145,11 @@ class OrderDetail extends Component<IProps, any> {
                                         <p css={total}>Tổng cộng ({item.products.length} sản phẩm): <span
                                             css={price}>{number_format(item.price)}đ</span></p>
                                     </div>
-                                    <div>
-                                        <button css={btn1}>Đánh giá</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <OrderRate/>
                 </div>
             );
         }catch (e) {
@@ -230,10 +233,10 @@ const btn1 = css`background: #F54B24;
 border: none;
 border-radius: 4px;
 color: white;
-height: 40px;
-width: 180px;
-margin-left: 16px;
-font-size: 13px;
+height: 30px;
+width: 100px;
+margin-right: 60px;
+font-size: 12px;
 font-weight: bold;`
 const Wrap = css`display: flex;;
   background: white;

@@ -31,6 +31,7 @@ class ProductDetail extends Component <IProps, any>{
             let price = productDetailStore.productDetail.price;
             let salePrice = productDetailStore.productDetail.price - productDetailStore.productDetail.discount;
             const discount = price > salePrice ? Math.ceil((price - salePrice) / price * 100) : 0;
+            let item: any = productDetailStore.productDetail;
             return (
                 <div className="product_detail">
                     <div className="container d-flex">
@@ -47,6 +48,12 @@ class ProductDetail extends Component <IProps, any>{
                         <div className="content">
                             <div className="name">
                                 <h2>{productDetailStore.productDetail.name}</h2>
+                                <ul style={{listStyle: 'none', paddingLeft: 0}} className="d-flex mb-2">
+                                    {[...Array(5)].map((value, index) =>
+                                        <li key={index} onClick={() => item.star = (index + 1) as any}>
+                                            <i style={{color: index < item.star ? '#FAC917' : "#d2d2d2"}} className="fas fa-star"/>
+                                        </li>)}
+                                </ul>
                             </div>
                             <div className="d-flex align-items-center">
                                 <p className="salePrice mr-4">{number_format(salePrice)}đ</p> <span className="price">{number_format(price)}đ</span>

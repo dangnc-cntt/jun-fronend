@@ -4,6 +4,7 @@ import {observer} from "mobx-react";
 import {requestUtils} from "../../../common/utils/RequestUtil";
 import "../styles/PaymentSuccess.scss"
 import {number_format} from "../../../common/utils/Utils";
+import {putRequest} from "../../../api";
 
 @observer
 class PaymentSuccess extends Component<any, any>{
@@ -13,6 +14,7 @@ class PaymentSuccess extends Component<any, any>{
         this.state = {
             status: '',
             amount: 0,
+            orderId: 0,
             type: ''
         }
     }
@@ -22,14 +24,15 @@ class PaymentSuccess extends Component<any, any>{
         if (queryParam) {
             let status: string = queryParam.vnp_ResponseCode as unknown as string || '';
             let amount: number = queryParam.vnp_Amount as unknown as number || 0;
-            let type: string = queryParam.type as unknown as string || '';
+            let type: string = queryParam.type as unknown as string || 'VNPAY';
+            let orderId: number = queryParam.vnp_TxnRef as unknown as number || 0;
             this.setState({
                 status: status,
                 amount: type === "CASH" ? amount : amount / 100
             })
 
             if(type === "VNPAY" && status === "00"){
-
+                return putRequest(`v1/orders/${orderId}`, true, {})
             }
         }
 

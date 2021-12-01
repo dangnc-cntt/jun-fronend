@@ -54,14 +54,7 @@ export const MenuDefined: IMenu[] = [
                 icon: <i className="fal fa-file-check"/>,
                 name: 'Đơn hàng của tôi',
                 link: '/customer/order/manage?type=all&page=0'
-            },
-            {
-                id: 1,
-                sort: 2,
-                icon: <i className="fal fa-thumbs-up"/>,
-                name: 'Đánh giá của tôi',
-                link: '/customer/rate?type=wait-review&page=0'
-            },
+            }
         ]
     }
 ];

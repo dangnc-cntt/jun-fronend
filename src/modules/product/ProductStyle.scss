@@ -1,6 +1,6 @@
 .card_product{
   width: 211px;
-  height: auto;
+  height: 288px;
   overflow: hidden;
   border-radius: 4px;
   margin: 0 16px 16px 0;
@@ -37,12 +37,19 @@
       height: 31px;
       line-height: 15px;
     }
-    .price, .sale_price{
+    .sale_price{
       margin-top: 5px;
       font-size: 12px;
       font-weight: 700;
       color: rgb(244, 75, 36);
       height: 15px;
+    }
+    .price{
+      margin-top: 5px;
+      font-size: 12px;
+      height: 15px;
+      text-decoration: line-through;
+      color: #666666;
     }
   }
 }

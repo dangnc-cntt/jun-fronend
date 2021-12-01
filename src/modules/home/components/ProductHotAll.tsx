@@ -10,6 +10,7 @@ import {getRequest} from "../../../common/helpers/RequestHelper";
 class ProductHotAll extends Component {
 
     async componentDidMount() {
+        window.scroll(0, 0)
         await homeStore.getProductHot();
     }
 

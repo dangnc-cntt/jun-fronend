@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 import {orderStore} from '../store';
 import {Link} from "react-router-dom";
 import {getLocalDateTime, number_format, slug} from "../../../../common/utils/Utils";
-import StatusOrder from "./StatusOrder";
+import StatusOrder from "./component/StatusOrder";
 
 const contentMb = css`
   @media screen and (max-width: 414px) {

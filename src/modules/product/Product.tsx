@@ -20,14 +20,20 @@ class Product extends Component<{data: any}, any> {
                     <div className="name">
                         {item.name}
                     </div>
-                    <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center mb-1 justify-content-between">
                         <span className="sale_price">
-                            {number_format(item.price)}đ
+                            {number_format(item.price - item.discount)}đ
                         </span>
-                        {/*<span className="price">*/}
-                        {/*    {item.price}*/}
-                        {/*</span>*/}
+                        {item.discount > 0 &&<span className="price">
+                            {number_format(item.price)}đ
+                        </span>}
                     </div>
+                    {item.star > 0 && <ul style={{listStyle: 'none', paddingLeft: 0}} className="d-flex mb-0">
+                        {[...Array(5)].map((value, index) =>
+                            <li key={index} onClick={() => item.star = (index + 1) as any}>
+                                <i style={{color: index < item.star ? '#FAC917' : "#d2d2d2", fontSize: 12}} className="fas fa-star"/>
+                            </li>)}
+                    </ul>}
                 </div>
             </Link>
         );

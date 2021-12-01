@@ -1,7 +1,7 @@
 import {Route, Switch} from "react-router-dom";
 import React, {lazy} from "react";
-import OrderDetail from "../cart/order/OrderDetail";
 
+import OrderDetail from "./orderManage/orderManage/OrderDetail";
 const ProfileAccount = lazy(() => import("./account/AccountComponent"));
 const ChangePassword = lazy(() => import("./change-password/ChangePasswordComponent"));
 const MyVoucher = lazy(() => import("./my-voucher/index"));
