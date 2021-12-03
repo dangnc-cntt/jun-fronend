@@ -8,12 +8,12 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Redirect from "./modules/router/router";
 import LoginSignup from "./modules/authen/LoginSignUp/components/index";
-import {LoginStore} from "./modules/authen/LoginSignUp/Store/LoginStore";
 import {getUserData} from "./modules/authen/LoginSignUp/Reducers/LoginReducer";
 import ActiveForm from "./modules/authen/LoginSignUp/components/ActiveForm";
-import {cartStore} from "./modules/cart/CartStore";
 import {css} from "@emotion/core";
 import ForgetPassComponent from "./modules/authen/forgetPass/components/ForgetPassComponent";
+import {signUpStore} from "./modules/authen/LoginSignUp/Store/SignUpStore";
+import {LoginStore} from "./modules/authen/LoginSignUp/Store/LoginStore";
 
 @observer
 export default class App extends Component {
@@ -44,19 +44,32 @@ export default class App extends Component {
         }
     }
 
+    handleClickSignup() {
+        LoginStore.isShowLoginForm = false;
+        signUpStore.isSignUpForm = true
+    }
+
     render() {
         return (
             <div className="jun_shop">
                 <Router>
                     <Header/>
-                    <div className="wrapper">
+                    <div className="wrapper" style={{minHeight: 600}}>
                         <div className="container">
                             <Redirect/>
                         </div>
                     </div>
                     <div className="footer" css={footer}>
-                        <div className="container d-flex align-items-center justify-content-center">
-
+                        <div className="container d-flex justify-content-between pt-5">
+                            <div>
+                                <p className="text-white">Số điện thoại: 0383630495</p>
+                                <p className="text-white">Đia chỉ: 200 Nguyễn Khang</p>
+                                <p className="text-white">Jun Shop thời trang thỏa sức mua sắm</p>
+                            </div>
+                            <div className="text-right">
+                                <p className="text-white">Đăng ký ngay để nhận thêm ưu đãi từ Jun shop</p>
+                                <button onClick={() => this.handleClickSignup()}>Đăng ký</button>
+                            </div>
                         </div>
                     </div>
                     <ForgetPassComponent/>
@@ -75,15 +88,24 @@ export default class App extends Component {
 const Header = lazy(() => import('./modules/header/component/HeaderComponent'));
 
 
-
 const footer = css`
   width: 100%;
   height: auto;
   padding: 20px 0;
   margin-top: 16px;
   background-color: #323639;
-  .container{
+
+  .container {
     width: 100%;
-    height: 250px;
+    height: 180px;
+    button{
+      width: 100px;
+      height: 40px;
+      color: white;
+      border: none;
+      font-size: 14px;
+      border-radius: 4px;
+      background-color: #f44b24;
+    }
   }
 `
