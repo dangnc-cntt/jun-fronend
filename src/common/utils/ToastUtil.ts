@@ -25,10 +25,11 @@ class ToastUtil{
         })
     }
 
-    public warning(message:string) {
+    public warning(message:string, id?: any) {
         toast.warn(message, {
             position: "top-center",
             autoClose: 2000,
+            toastId: id,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,

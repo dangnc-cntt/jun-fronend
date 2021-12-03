@@ -9,6 +9,7 @@ import {orderStore} from "./OrderStore";
 import {toastUtil} from "../../../common/utils/ToastUtil";
 import {observable} from "mobx";
 import {postRequest} from "../../../api";
+import AddVoucher from "./AddVoucher";
 
 
 export interface IProps {
@@ -156,7 +157,7 @@ class Order extends Component<IProps, any> {
                                             </li>
                                             <li className="promotion mb-4">
                                                 <p className="title">Mã giảm giá và mã vận chuyển</p>
-                                                {orderStore.requestOrder.voucherId == 0 ? <div className="box">
+                                                {orderStore.requestOrder.voucherId == 0 ? <div className="box"  data-toggle="modal" data-target="#add_voucher">
                                                     <img src="/assets/images/promotion.svg" className="icon" alt="icon"/>
                                                     <p>Chọn mã giảm  giá</p>
                                                 </div> : <div>
@@ -192,6 +193,7 @@ class Order extends Component<IProps, any> {
                         </div>
                     </div>
                     {this.renderShortPayment}
+                    <AddVoucher/>
                 </div>
             );
         }else return null

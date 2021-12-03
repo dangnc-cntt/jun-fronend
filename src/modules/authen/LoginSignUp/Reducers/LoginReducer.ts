@@ -63,6 +63,7 @@ export async function Login() {
         LoginStore.isShowLoginForm = false;
         LoginStore.isVerifyForm = true;
       } else {
+        console.log(refreshToken)
         localStorage.setItem("token", accessToken);
         localStorage.setItem("refreshToken", refreshToken)
         toastUtil.success(`Đăng nhập thành công`);

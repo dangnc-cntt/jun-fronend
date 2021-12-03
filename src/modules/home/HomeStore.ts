@@ -9,7 +9,7 @@ class HomeStore{
     @observable isLoadingBt: boolean = false;
     @observable listProductAll: any[] = [];
     @observable listProductHot: any[] = [];
-
+    @observable listBanner: any[] = [];
 
     async getProductAll(){
         try {
@@ -23,6 +23,16 @@ class HomeStore{
         }
     }
 
+    async getBanner(){
+        try {
+            const result = await getRequest(`v1/config/banners`);
+            if(result.status === 200){
+                this.listBanner = result.body;
+            }
+        }catch (e) {
+            return true
+        }
+    }
 
     async getProductHot(){
         try {

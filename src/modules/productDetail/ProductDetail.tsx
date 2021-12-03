@@ -7,6 +7,7 @@ import $ from "jquery"
 import {number_format} from "../../common/utils/Utils";
 import {observable} from "mobx";
 import {cartStore} from "../cart/CartStore";
+import ReviewProduct from "./ReviewProduct";
 
 interface IProps {
    match:{ params: {id: any}}
@@ -33,58 +34,61 @@ class ProductDetail extends Component <IProps, any>{
             const discount = price > salePrice ? Math.ceil((price - salePrice) / price * 100) : 0;
             let item: any = productDetailStore.productDetail;
             return (
-                <div className="product_detail">
-                    <div className="container d-flex">
-                        <div>
-                            <div className="images">
-                                <img src={productDetailStore.productDetail.imageUrls[productDetailStore.imagesActive]} alt=""/>
+                <div>
+                    <div className="product_detail">
+                        <div className="container d-flex">
+                            <div>
+                                <div className="images">
+                                    <img src={productDetailStore.productDetail.imageUrls[productDetailStore.imagesActive]} alt=""/>
+                                </div>
+                                <div className="list_img">
+                                    {productDetailStore.productDetail.imageUrls && productDetailStore.productDetail.imageUrls.map((item, i) => {
+                                        return <span className={productDetailStore.imagesActive === i ? "active" : ''} key={i}><img src={item} onClick={() => productDetailStore.imagesActive = i} alt=""/></span>
+                                    })}
+                                </div>
                             </div>
-                            <div className="list_img">
-                                {productDetailStore.productDetail.imageUrls && productDetailStore.productDetail.imageUrls.map((item, i) => {
-                                    return <span className={productDetailStore.imagesActive === i ? "active" : ''} key={i}><img src={item} onClick={() => productDetailStore.imagesActive = i} alt=""/></span>
-                                })}
-                            </div>
-                        </div>
-                        <div className="content">
-                            <div className="name">
-                                <h2>{productDetailStore.productDetail.name}</h2>
-                                <ul style={{listStyle: 'none', paddingLeft: 0}} className="d-flex mb-2">
-                                    {[...Array(5)].map((value, index) =>
-                                        <li key={index} onClick={() => item.star = (index + 1) as any}>
-                                            <i style={{color: index < item.star ? '#FAC917' : "#d2d2d2"}} className="fas fa-star"/>
-                                        </li>)}
-                                </ul>
-                            </div>
-                            <div className="d-flex align-items-center">
-                                <p className="salePrice mr-4">{number_format(salePrice)}đ</p> <span className="price">{number_format(price)}đ</span>
-                            </div>
-                            {discount > 0 && <p className="discount mb-4">{discount}% <span className="ml-1">GIẢM</span></p>}
-                            {productDetailStore.productDetail.optionList && <div className="d-flex mb-4 options align-items-center">
-                                <label className="mr-4"><strong>Phân loại:</strong></label>
-                                {productDetailStore.productDetail.optionList.map((item, i) => {
-                                    return <span className={`${item.id == this.optionId ? "active" : ''} mr-2 p-2`} onClick={() => this.chooseOption(item)} key={i}>{item.color.name} - {item.size.name}</span>
-                                })}
-                            </div>}
-                            <div className="next-number-picker d-flex align-items-center justify-content-center" css={z}>
-                                <button css={button2} className=" " type="button" onClick={() => subQuantity()}><i
-                                    className="far fa-minus"/></button>
-                                <input css={input} className="product-result-quantity" type="text" readOnly
-                                       value={JSON.stringify(productDetailStore.quantity)}/>
-                                <button css={button} className=" " type="button" onClick={() => addQuantity()}><i
-                                    className="far fa-plus"/></button>
-                            </div>
-                            <p className="quantity">
-                                {productDetailStore.amount !== -1 && (productDetailStore.amount > 0 ? `Còn ${number_format(productDetailStore.amount)} sản phẩm trong kho` : <span className="text-danger">Hết hàng</span>)}
-                            </p>
-                            <div className="action-normal d-flex align-items-center" id="product-detail-action">
-                                <button className="add" onClick={() => cartStore.addToCart(id, this.optionId, productDetailStore.quantity, productDetailStore.amount)}>Thêm vào giỏ</button>
-                                <button className="buy">Mua ngay</button>
-                            </div>
-                            <div className="commitment" css={commitment}>
-                                <span>Cam kết sản phẩm chính hãng</span>
+                            <div className="content">
+                                <div className="name">
+                                    <h2>{productDetailStore.productDetail.name}</h2>
+                                    <ul style={{listStyle: 'none', paddingLeft: 0}} className="d-flex mb-2">
+                                        {[...Array(5)].map((value, index) =>
+                                            <li key={index} onClick={() => item.star = (index + 1) as any}>
+                                                <i style={{color: index < item.star ? '#FAC917' : "#d2d2d2"}} className="fas fa-star"/>
+                                            </li>)}
+                                    </ul>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                    <p className="salePrice mr-4">{number_format(salePrice)}đ</p> <span className="price">{number_format(price)}đ</span>
+                                </div>
+                                {discount > 0 && <p className="discount mb-4">{discount}% <span className="ml-1">GIẢM</span></p>}
+                                {productDetailStore.productDetail.optionList && <div className="d-flex mb-4 options align-items-center">
+                                    <label className="mr-4"><strong>Phân loại:</strong></label>
+                                    {productDetailStore.productDetail.optionList.map((item, i) => {
+                                        return <span className={`${item.id == this.optionId ? "active" : ''} mr-2 p-2`} onClick={() => this.chooseOption(item)} key={i}>{item.color.name} - {item.size.name}</span>
+                                    })}
+                                </div>}
+                                <div className="next-number-picker d-flex align-items-center justify-content-center" css={z}>
+                                    <button css={button2} className=" " type="button" onClick={() => subQuantity()}><i
+                                        className="far fa-minus"/></button>
+                                    <input css={input} className="product-result-quantity" type="text" readOnly
+                                           value={JSON.stringify(productDetailStore.quantity)}/>
+                                    <button css={button} className=" " type="button" onClick={() => addQuantity()}><i
+                                        className="far fa-plus"/></button>
+                                </div>
+                                <p className="quantity">
+                                    {productDetailStore.amount !== -1 && (productDetailStore.amount > 0 ? `Còn ${number_format(productDetailStore.amount)} sản phẩm trong kho` : <span className="text-danger">Hết hàng</span>)}
+                                </p>
+                                <div className="action-normal d-flex align-items-center" id="product-detail-action">
+                                    <button className="add" onClick={() => cartStore.addToCart(id, this.optionId, productDetailStore.quantity, productDetailStore.amount)}>Thêm vào giỏ</button>
+                                    <button className="buy" onClick={() => cartStore.buyNow(id, this.optionId, productDetailStore.quantity, productDetailStore.amount)}>Mua ngay</button>
+                                </div>
+                                <div className="commitment" css={commitment}>
+                                    <span>Cam kết sản phẩm chính hãng</span>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <ReviewProduct/>
                 </div>
             );
         }else return null

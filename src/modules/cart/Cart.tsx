@@ -11,8 +11,8 @@ import {css} from "@emotion/core";
 
 @observer
 class Cart extends Component<any, any> {
-
     @observable isCheck = false;
+
 
     getTotalPrice(): any {
         let count: number = 0;
@@ -43,6 +43,13 @@ class Cart extends Component<any, any> {
 
     render() {
         if (cartStore.listCart && cartStore.listCart.length > 0) {
+            let id = window.location.search.split('?id=')[1];
+
+            cartStore.listCart.map((item) => {
+                if(item.id == id){
+                    item.check = true
+                }
+            })
             return (
                 <div id="cart-detail">
                     <div className="container">

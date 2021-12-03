@@ -7,8 +7,15 @@
 .forget_pass{
   display: flex;
   justify-content: center;
+  top: 0;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
   .hide-form-wrap{
     z-index: 1030;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
   }
   .modal-dialog{
     width: 500px;
@@ -84,8 +91,16 @@
 .step_2{
   display: flex;
   justify-content: center;
+  top: 0;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
   .hide-form-wrap{
     z-index: 1030;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
   }
   .modal-dialog{
     max-width: 500px !important;
@@ -131,8 +146,16 @@
 .step_3{
   display: flex;
   justify-content: center;
+  top: 0;
+  height: 100vh;
+  position: absolute;
+  width: 100%;
   .hide-form-wrap{
     z-index: 1030;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.4);
   }
   .modal-dialog{
     max-width: 500px !important;

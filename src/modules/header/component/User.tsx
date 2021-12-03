@@ -24,8 +24,8 @@ class User extends Component {
                     <div className="user-hover">
                         {LoginStore.getUserData.avatarUrl ?
                             <div className="d-flex align-items-center" style={{height: `60px`}}>
-                                <div className="img_user" style={{marginRight: 16}}>
-                                    <img src={LoginStore.getUserData.avatarUrl} alt=""/>
+                                <div className="img_user" style={{width: `36px`, marginRight: 16}}>
+                                    <img className="w-100" src={LoginStore.getUserData.avatarUrl} alt=""/>
                                 </div>
                                 <div className="information-user">
                                     <p className="">Xin chào</p>

@@ -2,7 +2,7 @@ import { observable, computed } from "mobx";
 
 class ForgetPass{
     @observable public isShow:boolean=false
-    @observable public step:number=1;
+    @observable public step:number = 1;
     @observable public userName!:string
     @observable public passWord!:string;
     @observable public passConfirm!:string;

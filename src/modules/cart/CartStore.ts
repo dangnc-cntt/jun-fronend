@@ -17,11 +17,11 @@ class CartStore{
 
     async addToCart( id: number, optionId: any, quantity: any, amount: any){
         if(!optionId){
-            toastUtil.warning("Vui lòng chọn phân loại sản phẩm")
+            toastUtil.warning("Vui lòng chọn phân loại sản phẩm", 2)
             return false
         }
         if(amount < 1){
-            toastUtil.warning("Sản phẩm không đủ số lượng")
+            toastUtil.warning("Sản phẩm không đủ số lượng", 3)
             return false
         }
         if(!localStorage.getItem('token')){
@@ -33,6 +33,28 @@ class CartStore{
         if(result.status === 200){
             toastUtil.success('Thêm sản phẩm thành công');
             cartStore.getCart()
+        }
+    }
+
+    async buyNow( id: number, optionId: any, quantity: any, amount: any){
+        if(!optionId){
+            toastUtil.warning("Vui lòng chọn phân loại sản phẩm", 2)
+            return false
+        }
+        if(amount < 1){
+            toastUtil.warning("Sản phẩm không đủ số lượng", 3)
+            return false
+        }
+        if(!localStorage.getItem('token')){
+            LoginStore.isShowLoginForm = true;
+            signUpStore.isSignUpForm = false
+            return false
+        }
+        const result = await cartService.addToCart(id, optionId, quantity);
+        if(result.status === 200){
+            toastUtil.success('Thêm sản phẩm thành công');
+            cartStore.getCart()
+            window.location.href = `/cart?id=${id}`;
         }
     }
 

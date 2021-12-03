@@ -27,16 +27,17 @@ function sendReSendOtp(username: string): Promise<IApiResponse<any>> {
     return postRequest('v1/auth/resend_code?type=REG', false, {username: username})
 }
 
-function sendForgetPassword(username: string, captcha: string): Promise<IApiResponse<any>> {
-    return getRequest('v1/auth/forgot_password?username=' + username + '&captcha=' + captcha, false);
+
+function sendOtpForgetPass(username: any): Promise<IApiResponse<any>> {
+    return postRequest('v1/auth/forgot_password?collection=send_otp', false, {username: username})
 }
 
-function sendVerifyOtpForgetPass(username: string, otp: string): Promise<IApiResponse<any>> {
-    return getRequest('v1/auth/check_otp?username=' + username + '&otp=' + otp, false);
+function sendVerifyOtpForgetPass(data: any): Promise<IApiResponse<any>> {
+    return postRequest('v1/auth/forgot_password?collection=check_otp', false, data);
 }
 
-function sendChangePass(params: IReqChangePass): Promise<IApiResponse<any>> {
-    return putRequest('v1/auth/forgot_password', false, params);
+function sendChangePass(params: any): Promise<IApiResponse<any>> {
+    return putRequest('v1/auth/forgot_password?collection=update_password', false, params);
 }
 
 function sendReActAccRegister(username: string): Promise<IApiResponse<any>> {
@@ -50,7 +51,7 @@ export {
     sendRegister,
     sendVerifyAccount,
     sendReSendOtp,
-    sendForgetPassword,
+    sendOtpForgetPass,
     sendVerifyOtpForgetPass,
     sendChangePass,
     sendReActAccRegister

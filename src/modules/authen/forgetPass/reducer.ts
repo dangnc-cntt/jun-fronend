@@ -1,15 +1,13 @@
 import {forgetPassStore} from "./store";
-import {sendChangePass, sendForgetPassword, sendVerifyOtpForgetPass} from "../../../api/auth";
+import {sendChangePass, sendOtpForgetPass, sendVerifyOtpForgetPass} from "../../../api/auth";
 import {toastUtil} from "../../../common/utils/ToastUtil";
 
 export function clearInputTelephone() {
     forgetPassStore.forgetPassError = {phoneError: undefined}
-    // document.getElementsByClassName('mess-telephone')[0].innerHTML=""
 }
 
 export function clearInputCapcha() {
     forgetPassStore.forgetPassError = {capcha: undefined}
-    // document.getElementsByClassName('mess-capcha')[0].innerHTML=""
 }
 
 export function clearInputPass() {
@@ -29,20 +27,12 @@ export async function forgetPassWord() {
         const username: string = forgetPassStore.getUserName
         sessionStorage.setItem('username', username)
         const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        const filter_phone = /^[0-9-+]+$/;
-        const captcha = forgetPassStore.getCapcha
-        if (!filter.test(username) && !filter_phone.test(username)) {
-            forgetPassStore.forgetPassError = {phoneError: "Vui lòng nhập email hoặc số điện thoại hợp lệ"}
-
-            return false;
-        }
-        if (!captcha) {
-            forgetPassStore.forgetPassError = {capcha: "Vui lòng nhập Capcha"}
-            forgetPassStore.buttonLoading = false
+        if (!filter.test(username)) {
+            forgetPassStore.forgetPassError = {phoneError: "Email không hợp lệ!"}
             return false;
         }
 
-        const {status, body} = await sendForgetPassword(username, captcha);
+        const {status, body} = await sendOtpForgetPass(username);
         if (status > 250) {
             forgetPassStore.forgetPassError = {message: body.message}
             forgetPassStore.buttonLoading = false
@@ -73,11 +63,14 @@ export async function checkOtp() {
         const username = forgetPassStore.getUserName
         if (!otp) {
             forgetPassStore.forgetPassError = {message: "Vui lòng nhập mã xác thực"};
-            // notify.show("Vui lòng nhập mã xác thực",'error')
-         
             return false
         }
-        const {status, body} = await sendVerifyOtpForgetPass(username, otp);
+
+        let data = {
+            username: username,
+            code: otp
+        }
+        const {status, body} = await sendVerifyOtpForgetPass(data);
         if (status > 250) {
             forgetPassStore.forgetPassError = {message: body.message};
             forgetPassStore.buttonLoading = false
@@ -110,40 +103,31 @@ export async function changePassWord() {
     const username = forgetPassStore.getUserName
     if (!pass) {
         forgetPassStore.forgetPassError = {pass: "vui lòng nhập mật khẩu"}
-        // notify.show("Vui lòng nhập mật khẩu",'error')
-     
         forgetPassStore.buttonLoading = false
         return false
     }
     if (pass.length > 20 || pass.length < 6) {
         forgetPassStore.forgetPassError = {pass: "Mật khẩu phải từ 6 đến 20 kí tự"}
-        // notify.show("Mật khẩu phải từ 6 đến 20 kí tự",'error')
-     
         forgetPassStore.buttonLoading = false
         return false;
     }
     if (!passConfirm) {
         forgetPassStore.forgetPassError = {passComfirm: "vui lòng xác nhận mật khẩu"}
-        // notify.show("Vui lòng xác nhận mật khẩu",'error')
-     
         forgetPassStore.buttonLoading = false
         return false
     }
     if (pass !== passConfirm) {
         forgetPassStore.forgetPassError = {passComfirm: "Mật khẩu và mật khẩu xác nhập không giống nhau"}
-        // notify.show("Mật khẩu và mật khẩu xác nhận không giống nhau",'error')
-     
         forgetPassStore.buttonLoading = false
         return false;
     }
 
     try {
-        const data = {username: username, password: pass, confirmPassword: passConfirm, otp: otp};
+        const data = {username: username, password: pass, confirmedPassword: passConfirm, code: otp};
         const {status} = await sendChangePass(data);
         if (status > 250) {
             forgetPassStore.buttonLoading = false
         } else {
-            // document.getElementsByClassName('mess-forget-pass')[0].innerHTML="Thay đổi mật khẩu thành công"
             toastUtil.success("Thay đổi mật khẩu thành công")
             forgetPassStore.step = 1;
             forgetPassStore.userName = ""

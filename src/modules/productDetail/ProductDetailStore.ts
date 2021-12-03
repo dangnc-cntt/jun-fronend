@@ -41,18 +41,29 @@ class ProductDetailStore{
     @observable isLoadingButton: boolean = false;
     @observable quantity: number = 1;
     @observable amount: number = -1;
+    @observable page: number = 0;
+    @observable totalPages: number = 0;
     @observable imagesActive: number = 0;
     @observable productDetail?: IProduct;
+    @observable listReview: any[] = [];
 
     async getProductDetail(id: any){
         this.isLoading = true;
         const result = await productDetailService.getProductDetail(id)
         this.isLoading = false;
         if(result.status === 200){
-            this.productDetail = result.body
+            this.productDetail = result.body;
+            this.getReviewProduct(result.body.id)
         }
     }
 
+    async getReviewProduct(id: any){
+        const result = await productDetailService.reviewProduct(id)
+        if(result.status === 200){
+            this.listReview = result.body.data;
+            this.totalPages = result.body.metadata.totalPages;
+        }
+    }
 
 }
 

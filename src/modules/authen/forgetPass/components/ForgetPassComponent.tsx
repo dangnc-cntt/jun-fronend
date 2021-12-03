@@ -3,12 +3,10 @@ import {observer} from "mobx-react";
 import {forgetPassStore} from "../store";
 import '../forgetPassStyle.scss';
 import {Feedback, FormGroup, Input, Validations} from "../../../../common/form";
-import ReCAPTCHA from "react-google-recaptcha";
 import {
     clearInputTelephone,
     enterStep1,
     forgetPassWord,
-    clearInputCapcha,
     checkOtp,
     clearInputPass,
     changePassWord,
@@ -18,10 +16,6 @@ import {LoginStore} from "../../LoginSignUp/Store/LoginStore";
 
 @observer
 export default class ForgetPassComponent extends Component {
-    onChange(value: any) {
-        forgetPassStore.capcha = value;
-        clearInputCapcha()
-    }
 
     render() {
         if (forgetPassStore.getIsShow) {
@@ -39,21 +33,17 @@ export default class ForgetPassComponent extends Component {
                                 </div>
                                 <div className="modal-body">
                                     <FormGroup className="confirm w-100">
-                                        <label>Vui lòng nhập email hoặc số điện thoại của bạn đã đăng ký trên
-                                            Chozoi!</label>
+                                        <label>Vui lòng nhập email hoặc số điện thoại của bạn đã đăng ký trên Jun Shop!</label>
                                         <p id="error"
                                            className="error">{forgetPassStore.getFormError && forgetPassStore.getFormError.message}</p>
                                         <input type="text" name="usernameForgetPass" defaultValue=""
-                                               placeholder="Điền số điện thoại / Email" onChange={(e) => {
+                                               placeholder="Điền email của bạn" onChange={(e: any) => {
                                             forgetPassStore.userName = e.target.value;
                                             clearInputTelephone()
-                                        }} onKeyDown={(e) => {
+                                        }} onKeyDown={(e: any) => {
                                             enterStep1(e)
                                         }}/>
                                         <p className="error pb-2">{forgetPassStore.getFormError && forgetPassStore.getFormError.phoneError}</p>
-                                        <ReCAPTCHA sitekey={(window as any).GOOGLE_RECAPTCHA_CLIENT}
-                                                   onChange={this.onChange}/>
-                                        <p className="error">{forgetPassStore.getFormError && forgetPassStore.getFormError.capcha}</p>
                                     </FormGroup>
                                 </div>
                                 <div className="modal-footer">
@@ -62,7 +52,7 @@ export default class ForgetPassComponent extends Component {
                                         LoginStore.isShowLoginForm = true
                                     }}>Trở lại
                                     </button>
-                                    {forgetPassStore.getButtonLoading === false ?
+                                    {!forgetPassStore.getButtonLoading ?
                                         <button className="Next step-1" onClick={() => forgetPassWord()}>Tiếp
                                             tục</button> :
                                         <button className="Next step-1"><i className="fa fa-spinner fa-spin"/></button>}
@@ -88,7 +78,7 @@ export default class ForgetPassComponent extends Component {
                                 </div>
                                 <div className="modal-body">
                                     <FormGroup className="confirm w-100">
-                                        <label>Nhập mã xác nhận đã được gửi về mail hoặc SDT</label>
+                                        <label>Nhập mã xác nhận đã được gửi về email</label>
                                         <p className="error pb-2">{forgetPassStore.getFormError && forgetPassStore.getFormError.message}</p>
                                         <Input type="text" placeholder="Nhập mã xác nhận" name="otp"
                                                validations={[new Validations(Validations.minLength(1), 'Vui lòng nhập mã OTP'),
@@ -106,7 +96,7 @@ export default class ForgetPassComponent extends Component {
                                         forgetPassStore.userName = ""
                                     }}>Trở lại
                                     </button>
-                                    {forgetPassStore.getButtonLoading === false ?
+                                    {!forgetPassStore.getButtonLoading ?
                                         <button className="Next step-1" onClick={() => checkOtp()}>Tiếp tục</button> :
                                         <button className="Next step-1"><i className="fa fa-spinner fa-spin"/></button>}
                                 </div>
@@ -153,7 +143,7 @@ export default class ForgetPassComponent extends Component {
                                         forgetPassStore.isShow = false
                                     }}>Hủy
                                     </button>
-                                    {forgetPassStore.getButtonLoading === false ?
+                                    {!forgetPassStore.getButtonLoading ?
                                         <button className="Next step-1" onClick={() => changePassWord()}>Tiếp
                                             tục</button> :
                                         <button className="Next step-1"><i className="fa fa-spinner fa-spin"/></button>}

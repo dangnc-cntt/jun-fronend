@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {LoginStore} from "../Store/LoginStore";
 import {enterLogin, Login, setPassValue, setUserNameValue, changeTypePasswordInput} from "../Reducers/LoginReducer";
 import {observer} from "mobx-react";
-import {Feedback, FormGroup, Input, Validations} from "../../../../common/form";
+import {Feedback, FormGroup, Input} from "../../../../common/form";
 import {forgetPassStore} from "../../forgetPass/store";
 import {signUpStore} from "../Store/SignUpStore";
 
@@ -11,6 +11,7 @@ export default class FormLogin extends Component {
    protected renderEye = (statusEye: boolean): React.ReactNode => {
       if (statusEye) return <i className="far fa-eye" onClick={() => LoginStore.statusEye = !LoginStore.statusEye}/>; else return <i className="far fa-eye-slash" onClick={() => LoginStore.statusEye = !LoginStore.statusEye}/>;
    }
+
    handleForgotPassword(){
        forgetPassStore.isShow=true;
        LoginStore.isShowLoginForm=false;

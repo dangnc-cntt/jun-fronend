@@ -6,10 +6,12 @@ import {LoginStore} from "../../authen/LoginSignUp/Store/LoginStore";
 import {sendUpdateProfile} from "../../../api/account";
 import {getUserData} from "../../authen/LoginSignUp/Reducers/LoginReducer";
 import {toastUtil} from "../../../common/utils/ToastUtil";
-import {Button, Feedback, Form, FormGroup, Input, Select, Validations} from "../../../common/form";
+import {Button, Feedback, Form, FormGroup, Input, Validations} from "../../../common/form";
 import {formatNumberPhone, uploadImage} from "../../../common/utils/Utils";
 import {PROFILE_CTRL} from "../CustomerControl";
 import {store} from "../CustomerStore";
+import {observable} from "mobx";
+import {storage} from "../../../common/firebase/firebase";
 
 const REACT_APP_LIMITED_SIZE_UPLOAD: number = (window as any).REACT_APP_LIMITED_SIZE_UPLOAD || 0;
 
@@ -19,7 +21,7 @@ interface IProps {
 }
 
 interface IState {
-    avatarImg: string,
+    avatarImg: any,
     fullName: string,
     email: string,
     numberPhone: string,
@@ -36,7 +38,6 @@ interface IState {
 export default class AccountComponent extends React.Component<IProps, IState> {
     public store = new AccountStore();
     private dataRequestUpdateProfile: any;
-    public is_valid_birthday: boolean = false;
 
     public error!: string;
 
@@ -67,7 +68,6 @@ export default class AccountComponent extends React.Component<IProps, IState> {
             imageSrc: '',
             fileImageTemp: ''
         };
-        this.uploadLocalImage = this.uploadLocalImage.bind(this);
     }
 
     componentDidMount() {
@@ -94,9 +94,7 @@ export default class AccountComponent extends React.Component<IProps, IState> {
     private async onSubmit(event: any) {
         try {
             event.preventDefault();
-            if (this.state.fileImageTemp) {
-                this.dataRequestUpdateProfile.avatarUrl = await uploadImage(this.state.fileImageTemp, 'uploadProfile') || '';
-            }
+            this.dataRequestUpdateProfile.avatarUrl = this.state.avatarImg
             const response = await sendUpdateProfile(this.dataRequestUpdateProfile);
             if (response.status === 200) {
                 await getUserData();
@@ -107,73 +105,40 @@ export default class AccountComponent extends React.Component<IProps, IState> {
         }
     };
 
-    private verifyDimensionImage(file: any): Promise<{ image: any, width: number, height: number }> {
-        return new Promise(resolve => {
-            const fr = new FileReader();
-            fr.onload = () => {
-                const img = new Image();
-                img.onload = () => {
-                    resolve({image: img, width: img.width, height: img.height});
-                };
-                typeof fr.result === "string" && (img.src = fr.result);
-            };
-            fr.readAsDataURL(file);
-        });
+    @observable images: any;
+    handleChange = (e: any) => {
+        if (e.target.files[0]) {
+            this.images = e.target.files[0];
+            this.handleUpload()
+        }
     }
 
-    protected async uploadLocalImage(files: any[]) {
-        if (files.length > 0) {
-            const data = await this.verifyDimensionImage(files[0]);
-            if (data.width === data.height) {
-                this.setState({
-                    avatarImg: data.image.src,
-                    fileImageTemp: files
-                });
-            } else {
-                toastUtil.warning('Vui lòng chọn ảnh vuông');
+    handleUpload = () => {
+        const uploadTask = storage.ref(`images/${this.images.name}`).put(this.images);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+                const progress = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+            },
+            error => {
+                console.log(error);
+            },
+            () => {
+                storage
+                    .ref("images")
+                    .child(this.images.name)
+                    .getDownloadURL()
+                    .then(url => {
+                        this.setState({
+                            avatarImg: url
+                        })
+                    });
             }
-        }
-    };
-
-    private handlerOnChangeBirthday(event: any, key: 'year' | 'month' | 'day') {
-        let year = 0;
-        let month = 0;
-        let day = 0;
-        switch (key) {
-            case "year":
-                day = parseInt(this.dataRequestUpdateProfile.birthDay.substr(8, 2));
-                month = parseInt(this.dataRequestUpdateProfile.birthDay.substr(6, 2));
-                this.dataRequestUpdateProfile.birthDay = this.dataRequestUpdateProfile.birthDay.replace(/^\d{4}/, event.currentTarget.value);
-                break;
-            case "month":
-                day = parseInt(this.dataRequestUpdateProfile.birthDay.substr(8, 2));
-                year = parseInt(this.dataRequestUpdateProfile.birthDay.substr(0, 4));
-                this.dataRequestUpdateProfile.birthDay = this.dataRequestUpdateProfile.birthDay.replace(/\d{2}(?=-\d{2}$)/, event.currentTarget.value);
-                break;
-            case "day":
-                month = parseInt(this.dataRequestUpdateProfile.birthDay.substr(6, 2));
-                year = parseInt(this.dataRequestUpdateProfile.birthDay.substr(0, 4));
-                this.dataRequestUpdateProfile.birthDay = this.dataRequestUpdateProfile.birthDay.replace(/\d{2}$/, event.currentTarget.value);
-                break;
-        }
-        year = parseInt(this.dataRequestUpdateProfile.birthDay.substr(0, 4));
-        month = parseInt(this.dataRequestUpdateProfile.birthDay.substr(6, 2));
-        day = parseInt(this.dataRequestUpdateProfile.birthDay.substr(8, 2));
-
-        this.is_valid_birthday = this.isValidDate(event, year, month, day);
+        )
     }
 
-    private isValidDate(e: any, year: number, month: number, day: number): boolean {
-        const date = new Date();
-        date.setFullYear(year, month - 1, day);
-        if ((date.getFullYear() === year) && (date.getMonth() === month - 1) && (date.getDate() === day)) {
-            return true;
-        } else {
-            toastUtil.error('Nhập sai định dạng ngày tháng');
-            return false;
-        }
-
-    }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
         return <div className="container" id="profiles-account-page">
@@ -188,13 +153,13 @@ export default class AccountComponent extends React.Component<IProps, IState> {
                     <div className="w-100 text-center">
                         <button className="btn change-avatar border">+ Thêm ảnh<input
                             accept={"image/jpeg, image/jpg, image/png"}
-                            onChange={(e: any) => this.uploadLocalImage(e.currentTarget.files)}
+                            onChange={(e: any) => this.handleChange(e)}
                             type="file"/></button>
                     </div>
                     <div className="content">
                         <h4>Thiết lập ảnh đại diện</h4>
                         <p>Nếu bạn chưa thiết lập, ảnh đại diện của bạn sẽ được hệ thống mặc định hiển thị.</p>
-                        <span>(<span>{`Tối đa ${REACT_APP_LIMITED_SIZE_UPLOAD}MB`}</span>. Định dạng JPEG, JPG, PNG)</span>
+                        <span>Định dạng JPEG, JPG, PNG)</span>
                     </div>
                 </div>
                 <div className="form_content_account">

@@ -13,6 +13,7 @@ import {getUserData} from "./modules/authen/LoginSignUp/Reducers/LoginReducer";
 import ActiveForm from "./modules/authen/LoginSignUp/components/ActiveForm";
 import {cartStore} from "./modules/cart/CartStore";
 import {css} from "@emotion/core";
+import ForgetPassComponent from "./modules/authen/forgetPass/components/ForgetPassComponent";
 
 @observer
 export default class App extends Component {
@@ -24,14 +25,9 @@ export default class App extends Component {
 
     async componentDidMount() {
         const token = localStorage.getItem('token');
-        const user = localStorage.getItem("user");
         try {
-            if (user) {
-                LoginStore.userData = JSON.parse(user) || null;
-                if (token) getUserData().then(() => localStorage.setItem("user", JSON.stringify(LoginStore.getUserData)));
-            } else if (token) {
+            if (token) {
                 await getUserData();
-                localStorage.setItem("user", JSON.stringify(LoginStore.getUserData));
             }
         } catch (e) {
             localStorage.removeItem("user");
@@ -63,6 +59,7 @@ export default class App extends Component {
 
                         </div>
                     </div>
+                    <ForgetPassComponent/>
                     <ActiveForm/>
                     <LoginSignup/>
                 </Router>
